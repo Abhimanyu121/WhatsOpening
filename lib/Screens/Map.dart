@@ -32,18 +32,34 @@ class MapState extends State<MapUi> {
 
   _fetchPOI() async {
     MapBoxApiWrapper wrapper = new MapBoxApiWrapper();
-    var tupple = await wrapper.getPOI(0, 0, 0, 0);
-    var ls = tupple[0];
-    setState(() {
-      dots = ls;
-      mapping = tupple[1];
-    });
-    print(Geohash
-        .decode(ls[1].geoHash)
-        .x);
-    print(Geohash
-        .decode(ls[1].geoHash)
-        .y);
+     await wrapper.getPOI(0, 0, 0, 0).then((tupple){
+       setState(() {
+         dots = tupple[0];
+         mapping = tupple[1];
+       });
+       if (dots != null && mapController != null) {
+         for (int i = 0; i < dots.length; i++) {
+           mapController.addCircle(CircleOptions(
+             geometry: LatLng(
+               Geohash
+                   .decode(dots[i].geoHash)
+                   .x,
+               Geohash
+                   .decode(dots[i].geoHash)
+                   .y,
+             ),
+             circleColor: "#FF0000",
+             circleRadius: 10,
+
+           ));
+
+         }
+
+       }
+     });
+
+
+
   }
 
   @override
@@ -71,25 +87,7 @@ class MapState extends State<MapUi> {
 
   @override
   Widget build(BuildContext context) {
-    if (dots != null && mapController != null) {
-      for (int i = 0; i < dots.length; i++) {
-        mapController.addCircle(CircleOptions(
-          geometry: LatLng(
-            Geohash
-                .decode(dots[i].geoHash)
-                .x,
-            Geohash
-                .decode(dots[i].geoHash)
-                .y,
-          ),
-          circleColor: "#FF0000",
-          circleRadius: 10,
 
-        ));
-
-      }
-
-    }
     return MapboxMap(
       initialCameraPosition: _kInitialPosition,
       compassEnabled: true,
