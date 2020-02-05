@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:flu/Models/POIModel.dart';
+import 'package:geohash/geohash.dart';
 class MapBoxApiWrapper {
   Future<List> getPOI(double swLat, double swLon, double neLat, double neLon ) async {
-     const  url = "https://map-api-direct.foam.space/poi/map?swLng=0&swLat=0&neLng=75.7873&neLat=26.9124&offset=2";
+     const  url = "https://map-api-direct.foam.space:443/poi/map?swLng=72.5714&swLat=23.0225&neLng=78.0322&neLat=30.3165";
      var resp = await http.get(url);
      print(resp.body);
      var  json = List.from(jsonDecode(resp.body));
@@ -17,8 +18,10 @@ class MapBoxApiWrapper {
        var tags = List.from(json[i]["tags"]);
        print(tags);
        model.tags = tags;
-
-       map[json[i]["geohash"].toString().substring(0,3)] = model;;
+       print("putting in map");
+       print(json[i]["geohash"].toString().substring(0,4));
+       var latlang = Geohash.decode(json[i]["geohash"].toString());
+       map[latlang.x.toString()+latlang.y.toString()] = model;
        list.add(model);
      }
     return [list, map];
