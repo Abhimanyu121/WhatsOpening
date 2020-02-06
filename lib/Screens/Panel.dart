@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flu/Models/POIModel.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 class PanelUi extends StatefulWidget{
   POIModel model;
   PanelUi(POIModel model){

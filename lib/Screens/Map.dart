@@ -3,6 +3,7 @@ import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flu/Models/POIModel.dart';
 import 'package:geohash/geohash.dart';
 import 'package:flu/Wrappers/MapBoxApiWrapper.dart';
+import 'package:geolocator/geolocator.dart';
 class MapUi extends StatefulWidget{
   Function(POIModel) setModel;
   MapUi({this.setModel});
@@ -12,18 +13,26 @@ class MapUi extends StatefulWidget{
 class MapState extends State<MapUi> {
   MapboxMapController mapController;
   CameraPosition _position = _kInitialPosition;
+  MapBoxApiWrapper wrapper;
   List dots;
   Map mapping;
+  var lat;
+  var lng;
   POIModel selected;
   static final CameraPosition _kInitialPosition = const CameraPosition(
     target: LatLng(28.7041, 77.1025),
     zoom: 11.0,
   );
-
-  void _selectCircle(Circle circle) {
+  _getLoc()async {
+    var pos =  await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("current loc");
+    print(pos.latitude.toString()+pos.longitude.toString());
+    return pos;
+  }
+  void _selectCircle(Symbol symbol) {
     print("here");
-    var latitude = circle.options.geometry.latitude;
-    var longitude = circle.options.geometry.longitude;
+    var latitude = symbol.options.geometry.latitude;
+    var longitude = symbol.options.geometry.longitude;
     var hash = latitude.toString()+longitude.toString();
     print(hash);
     print("at child");
@@ -32,18 +41,28 @@ class MapState extends State<MapUi> {
     widget.setModel(selected);
   }
 
-  _fetchPOI() async {
+  _fetchPOI(Position pos) async {
     if(dots == null ){
-      MapBoxApiWrapper wrapper = new MapBoxApiWrapper();
-      await wrapper.getPOI(0, 0, 0, 0).then((tupple){
+      CameraUpdate cu = CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(pos.latitude,pos.longitude,),zoom: 10));
+      mapController.moveCamera(cu);
+      mapController.addSymbol(SymbolOptions(
+          geometry: LatLng(
+              pos.latitude,
+              pos.longitude
+          ),
+          iconImage: "assets/pinkmark.png",
+          iconSize: 1,
+          iconColor: "#00F0F8FF"
+      ));
+      wrapper = new MapBoxApiWrapper();
+      await wrapper.getPOI(pos.latitude, pos.longitude).then((tupple){
         setState(() {
           dots = tupple[0];
           mapping = tupple[1];
         });
         if (dots != null && mapController != null) {
           for (int i = 0; i < dots.length; i++) {
-            mapController.addCircle(CircleOptions(
-
+            mapController.addSymbol(SymbolOptions(
               geometry: LatLng(
                 Geohash
                     .decode(dots[i].geoHash)
@@ -52,9 +71,9 @@ class MapState extends State<MapUi> {
                     .decode(dots[i].geoHash)
                     .y,
               ),
-              circleColor: "#2196F3",
-              circleRadius: 5,
-
+              iconImage: "assets/blumark.png",
+              iconSize: 0.1,
+              iconColor: "#00F0F8FF"
             ));
 
           }
@@ -62,18 +81,28 @@ class MapState extends State<MapUi> {
         }
       });
     }
-
+    return 0;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _fetchPOI();
+
+    _getLoc().then((pos){
+      _fetchPOI(pos).then((a){
+
+      });
+    });
   }
 
-  _extractMapInfo() {
+  _extractMapInfo() async  {
     _position = mapController.cameraPosition;
+    var tupple = await wrapper.getPOI(_position.target.latitude, _position.target.longitude);
+    if(tupple.length !=0){
+      
+    }
+   // print(_position.toString());
   }
 
   void _onMapChanged() {
@@ -83,13 +112,14 @@ class MapState extends State<MapUi> {
   _onMapCreated(MapboxMapController controller) {
     mapController = controller;
     mapController.addListener(_onMapChanged);
-    mapController.onCircleTapped.add(_selectCircle);
+    mapController.onSymbolTapped.add(_selectCircle);
   }
 
   @override
   Widget build(BuildContext context) {
 
     return MapboxMap(
+      trackCameraPosition: true,
       initialCameraPosition: _kInitialPosition,
       compassEnabled: true,
       onMapCreated: _onMapCreated,
