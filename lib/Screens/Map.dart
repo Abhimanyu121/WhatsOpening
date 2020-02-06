@@ -100,7 +100,28 @@ class MapState extends State<MapUi> {
     _position = mapController.cameraPosition;
     var tupple = await wrapper.getPOI(_position.target.latitude, _position.target.longitude);
     if(tupple.length !=0){
-      
+      List<POIModel> ls =tupple[0];
+      for(int i =0; i <ls.length;i++) {
+        var latlang = Geohash.decode(ls[i].geoHash.toString());
+        var key = latlang.x.toString()+latlang.y.toString();
+        if (mapping[key]==null){
+          dots.add(ls[i]);
+          mapping[key]= ls[i];
+          mapController.addSymbol(SymbolOptions(
+              geometry: LatLng(
+                Geohash
+                    .decode(ls[i].geoHash)
+                    .x,
+                Geohash
+                    .decode(ls[i].geoHash)
+                    .y,
+              ),
+              iconImage: "assets/blumark.png",
+              iconSize: 0.1,
+              iconColor: "#00F0F8FF"
+          ));
+        }
+      }
     }
    // print(_position.toString());
   }

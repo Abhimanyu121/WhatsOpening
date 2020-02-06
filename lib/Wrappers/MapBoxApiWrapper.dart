@@ -9,11 +9,13 @@ class MapBoxApiWrapper {
   double swlat ;
   double swlong ;
   Future<List> getPOI(double lat, double long ) async {
+
     if(this.nelat ==null){
-      nelat = lat +3;
-      nelong = long +3;
-      swlat = lat -3;
-      swlong = long -3;
+      print("in the wrapper");
+      nelat = lat +10;
+      nelong = long +10;
+      swlat = lat -10;
+      swlong = long -10;
       var  url = "https://map-api-direct.foam.space:443/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
       var resp = await http.get(url);
       print(resp.body);
@@ -35,11 +37,12 @@ class MapBoxApiWrapper {
       }
       return [list, map];
     }
-    else if(nelat - lat >2||nelat - lat <-2||nelong - long >2||nelong - long >2){
-      nelat = lat +3;
-      nelong = long +3;
-      swlat = lat -3;
-      swlong = long -3;
+    else if(nelat - lat >10||nelat - lat <-10||nelong - long >10||nelong - long >10){
+      print("in the wrapper2");
+      nelat = lat +10;
+      nelong = long +10;
+      swlat = lat -10;
+      swlong = long -10;
       var  url = "https://map-api-direct.foam.space:443/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
       var resp = await http.get(url);
       print(resp.body);
