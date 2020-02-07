@@ -21,11 +21,25 @@ class HomeState extends State<Home>{
   Widget build(BuildContext context) {
 
     return SlidingUpPanel(
+      backdropTapClosesPanel: true,
+      backdropEnabled: true,
+      renderPanelSheet: true,
+      backdropOpacity: 0.5,
       panelSnapping: false,
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(18.0), topRight: Radius.circular(18.0)),
+      borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(60.0)),
       parallaxEnabled: true,
       parallaxOffset: 1,
-      panel: model==null?Container():new PanelUi(model),
+      panel: Center(
+        child: model==null?Container(
+          child: RaisedButton(
+
+            child: Text("Dashboard"),
+            onPressed: (){
+              Navigator.pushNamed(context, '/dashboard');
+            },
+          )
+          ,):new PanelUi(model),
+      ),
       collapsed: Container(),
       body: CupertinoPageScaffold(
 

@@ -43,7 +43,7 @@ class MapBoxApiWrapper {
       nelong = long +10;
       swlat = lat -10;
       swlong = long -10;
-      var  url = "https://map-api-direct.foam.space:443/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
+      var  url = "https://rink-cd-api.foam.space/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
       var resp = await http.get(url);
       print(resp.body);
       var  json = List.from(jsonDecode(resp.body));

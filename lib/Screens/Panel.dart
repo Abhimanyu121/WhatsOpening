@@ -22,6 +22,7 @@ class PanelState extends State<PanelUi>{
     print("building stuff");
     return Container(
       child: Column(
+
         //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
