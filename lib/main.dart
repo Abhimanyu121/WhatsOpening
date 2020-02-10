@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/home.dart';
 import 'Screens/Dashboard.dart';
+import 'Screens/Allowance.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
     return CupertinoApp(
       routes: {
         '/dashboard': (context) => Dashboard(),
+        '/allowance': (context) => AllowancePage(),
       },
       title: 'FOAM MAP',
       theme: CupertinoThemeData(

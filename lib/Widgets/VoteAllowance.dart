@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-class RegistryAllow extends StatefulWidget{
+class VoteAllowance extends StatefulWidget{
 
   @override
-  RegistryState createState() => RegistryState();
+  VoteState createState() => VoteState();
 }
-class RegistryState extends State<RegistryAllow>{
+class VoteState extends State<VoteAllowance>{
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,8 @@ class RegistryState extends State<RegistryAllow>{
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(20),
-            child: Text("Set new allowance value for Registry", style: TextStyle(fontWeight: FontWeight.bold),)
+              padding: const EdgeInsets.all(20),
+              child: Text("Set new allowance value for Voting Contract", style: TextStyle(fontWeight: FontWeight.bold),)
           ),
 
           Padding(

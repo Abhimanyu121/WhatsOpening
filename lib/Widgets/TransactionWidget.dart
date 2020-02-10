@@ -7,17 +7,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 
 class TransactionView extends StatefulWidget {
-  final AnimationController animationController;
-  final Animation animation;
-
-  const TransactionView({Key key, this.animationController, this.animation})
-      : super(key: key);
 
   @override
   _TransactionViewState createState() => _TransactionViewState();
 }
 
-class _TransactionViewState extends State<TransactionView> {
+class _TransactionViewState extends State<TransactionView>  with TickerProviderStateMixin {
+  AnimationController animationController;
   bool transacting =false;
   bool noTransactions= true;
   bool loading = true;
@@ -27,134 +23,129 @@ class _TransactionViewState extends State<TransactionView> {
   @override
   void initState(){
     _transactionStatus();
+    animationController =
+        AnimationController(duration: Duration(milliseconds: 600), vsync: this);
   }
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: widget.animationController,
+      animation: animationController,
       builder: (BuildContext context, Widget child) {
-        return FadeTransition(
-          opacity: widget.animation,
-          child: new Transform(
-            transform: new Matrix4.translationValues(
-                0.0, 30 * (1.0 - widget.animation.value), 0.0),
+        return Padding(
+          padding: const EdgeInsets.only(
+              left: 24, right: 24, top: 16, bottom: 18),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                AppTheme.nearlyDarkBlue,
+                HexColor("#6F56E8")
+              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  bottomLeft: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                  topRight: Radius.circular(68.0)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppTheme.grey.withOpacity(0.6),
+                    offset: Offset(1.1, 1.1),
+                    blurRadius: 10.0),
+              ],
+            ),
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 18),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    AppTheme.nearlyDarkBlue,
-                    HexColor("#6F56E8")
-                  ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0),
-                      topRight: Radius.circular(68.0)),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.6),
-                        offset: Offset(1.1, 1.1),
-                        blurRadius: 10.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Your Last Transaction',
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Your Last Transaction',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontFamily: AppTheme.fontName,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14,
+                      letterSpacing: 0.0,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: noTransactions?Text("No Transactions yet!", style: TextStyle(color: Colors.black),):FlatButton(
+                      onPressed: (){
+                        ClipboardManager.copyToClipBoard(hash).then((val){
+                          Toast.show("Hash Copied", context);
+                        });
+                      },
+                      child: Text(
+                        hash,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontFamily: AppTheme.fontName,
                           fontWeight: FontWeight.normal,
-                          fontSize: 14,
+                          fontSize: 20,
                           letterSpacing: 0.0,
-                          color: AppTheme.white,
+                          color: Colors.black,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: noTransactions?Text("No Transactions yet!"):FlatButton(
+                    ),
+                  ),
+                  SizedBox(
+                    height: 32,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+
+                        Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: Row(
+                              children: <Widget>[
+                                noTransactions?Text(""):!transacting?Icon(Icons.check,color: Colors.black,):SpinKitWave(size: 30,color: Colors.indigo,),
+                                SizedBox(width: 20,),
+                                noTransactions?Text(""):Text(transacting?"Not Merged yet!":"Transaction merged", style: TextStyle(color:Colors.black),)
+                              ],
+                            )
+                        ),
+                        Expanded(
+                          child: SizedBox(),
+                        ),
+                        FlatButton(
                           onPressed: (){
-                            ClipboardManager.copyToClipBoard(hash).then((val){
-                              Toast.show("Hash Copied", context);
+                            setState(() {
+                              loading =true;
                             });
+                            _transactionStatus();
                           },
-                          child: Text(
-                            hash,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 20,
-                              letterSpacing: 0.0,
-                              color: AppTheme.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppTheme.nearlyWhite,
+                              shape: BoxShape.circle,
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: AppTheme.nearlyBlack
+                                        .withOpacity(0.4),
+                                    offset: Offset(8.0, 8.0),
+                                    blurRadius: 8.0),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(0.0),
+                              child: Icon(
+                                Icons.refresh,
+                                color: HexColor("#6F56E8"),
+                                size: 44,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 32,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 4),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-
-                            Padding(
-                                padding: const EdgeInsets.only(left: 4.0),
-                                child: Row(
-                                  children: <Widget>[
-                                    noTransactions?Text(""):!transacting?Icon(Icons.check,color: Colors.black,):SpinKitWave(size: 30,color: Colors.indigo,),
-                                    SizedBox(width: 20,),
-                                    noTransactions?Text(""):Text(transacting?"Not Merged yet!":"Transaction merged", style: TextStyle(color:Colors.white),)
-                                  ],
-                                )
-                            ),
-                            Expanded(
-                              child: SizedBox(),
-                            ),
-                            FlatButton(
-                              onPressed: (){
-                                setState(() {
-                                  loading =true;
-                                });
-                                _transactionStatus();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppTheme.nearlyWhite,
-                                  shape: BoxShape.circle,
-                                  boxShadow: <BoxShadow>[
-                                    BoxShadow(
-                                        color: AppTheme.nearlyBlack
-                                            .withOpacity(0.4),
-                                        offset: Offset(8.0, 8.0),
-                                        blurRadius: 8.0),
-                                  ],
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(0.0),
-                                  child: Icon(
-                                    Icons.refresh,
-                                    color: HexColor("#6F56E8"),
-                                    size: 44,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),
