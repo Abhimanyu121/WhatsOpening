@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flu/Wrappers/EthWrapper.dart';
+import 'package:toast/toast.dart';
 class RegistryAllow extends StatefulWidget{
 
   @override
@@ -54,6 +56,10 @@ class RegistryState extends State<RegistryAllow>{
               ),
               onPressed: ()async {
                 FocusScope.of(context).requestFocus(FocusNode());
+                EthWrapper wrapper = new EthWrapper();
+                Toast.show("Please Wait", context);
+                var resp = await wrapper.approveReg(double.parse(amount.text));
+                Toast.show(resp, context);
                 Navigator.of(context).pop();
               },
               padding: EdgeInsets.all(12),

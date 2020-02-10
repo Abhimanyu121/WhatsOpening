@@ -32,7 +32,7 @@ class EthWrapper {
     print(response3.toString());
     BigInt vr = BigInt.from(BigInt.parse(response.toString().substring(1,response.toString().length-1))/BigInt.from(1000000000000000));
     BigInt vr2 = BigInt.from(BigInt.parse(response2.toString().substring(1,response.toString().length-1))/BigInt.from(1000000000000000));
-    BigInt vr3 = BigInt.from(BigInt.parse(response3.toString().substring(1,response.toString().length-1))/BigInt.from(1000000000000000));
+    BigInt vr3 = BigInt.from(BigInt.parse(response3.toString().substring(1,response.toString().length-1))/BigInt.from(100000000000000));
     double bal = vr.toDouble()/1000.0;
     double bal2 = vr2.toDouble()/1000.0;
     double bal3 = vr3.toDouble()/1000.0;
@@ -53,7 +53,7 @@ class EthWrapper {
           function: approve,
           gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
           maxGas: 4000000,
-          parameters: [EthereumAddress.fromHex(registry),BigInt.from(amount*1000)*BigInt.from(1000000000000)]
+          parameters: [EthereumAddress.fromHex(registry),BigInt.from(amount*1000)*BigInt.from(1000000000000000)]
       ),
       chainId: 4,
     );
@@ -77,7 +77,7 @@ class EthWrapper {
           function: approve,
           gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
           maxGas: 4000000,
-          parameters: [EthereumAddress.fromHex(voting),BigInt.from(amount*1000)*BigInt.from(1000000000000)]
+          parameters: [EthereumAddress.fromHex(voting),BigInt.from(amount*1000)*BigInt.from(1000000000000000)]
       ),
       chainId: 4,
     );

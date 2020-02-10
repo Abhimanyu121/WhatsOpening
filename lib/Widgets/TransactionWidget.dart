@@ -26,6 +26,7 @@ class _TransactionViewState extends State<TransactionView>  with TickerProviderS
     animationController =
         AnimationController(duration: Duration(milliseconds: 600), vsync: this);
   }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -152,6 +153,7 @@ class _TransactionViewState extends State<TransactionView>  with TickerProviderS
         );
       },
     );
+
   }
   _transactionStatus()async {
     await SharedPreferences.getInstance().then((prefs)async {

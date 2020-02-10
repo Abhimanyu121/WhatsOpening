@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Widgets/BalanceCard.dart';
-import 'package:flu/Widgets/AllowanceRegistry.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flu/Widgets/TransactionWidget.dart';
@@ -24,6 +23,9 @@ class DashboardState extends State<Dashboard>{
   Map json={"result":{"status":"0"}};
   bool err =false;
   _getRegAllow() async {
+    setState(() {
+      loading= true;
+    });
     EthWrapper wrapper = new EthWrapper();
     var regBal = await wrapper.regAllowance();
     setState(() {
@@ -58,6 +60,9 @@ class DashboardState extends State<Dashboard>{
             child: ListView(
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
+                  Center(
+                    child: CupertinoButton.filled(child: Icon(Icons.refresh), onPressed:_getRegAllow),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text("Your Last Transaction", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
