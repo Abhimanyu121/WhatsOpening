@@ -1,27 +1,30 @@
+import 'package:flu/Models/POIModel.dart';
+import 'package:flu/Screens/Map.dart';
+import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../ThemeData.dart';
+import 'package:flu/ThemeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-
-class BalanceCard extends StatefulWidget{
-  BigInt reg;
-  BigInt voting;
-  BigInt total;
-  BalanceCard({this.reg, this.voting, this.total});
-
+class PoiWidget extends StatefulWidget{
+  GlobalKey<MapState> mapState;
+  POIModel model;
+  PoiWidget({this.model, this.mapState});
   @override
-  _BalanceCardState createState() => _BalanceCardState();
+  PoiWidgetState createState() => new PoiWidgetState();
 }
-
-class _BalanceCardState extends State<BalanceCard> {
+class PoiWidgetState extends State<PoiWidget>{
+  TextEditingController amount = TextEditingController();
+  TextEditingController reason = TextEditingController();
   bool transacting =false;
   bool noTransactions= true;
   bool loading = true;
   String hash;
   Map json={"result":{"status":"0"}};
   bool err =false;
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 15.0);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -52,47 +55,77 @@ class _BalanceCardState extends State<BalanceCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text("Your Tokens : \n\t\t"+widget.total.toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text("Name : \n\t\t"+widget.model.name, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
               SizedBox(
                 height: 10,
               ),
-              Text("Your Approved Tokens :", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text("GeoHash :\n\t\t"+widget.model.geoHash, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
               SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text("Registry",style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
-                      widget.reg==BigInt.from(0)?Text("0"): Text(widget.reg.toString(),style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),)
-                    ],
+              Text("Owner :\n\t\t"+widget.model.owner, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  child: TextFormField(
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    controller: amount,
+                    autovalidate: true,
+                    validator: (val) => val==""?null:(double.parse(val)<=100?
+                    "Invalid amount, Should be at least 100":
+                    null),
+                    obscureText: false,
+                    style: style,
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(15,10,15,10),
+                        hintText: "Tokens to put on stake",
+                        border:
+                        OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
                   ),
-
-                  Column(
-                    children: <Widget>[
-                      Text("Voting",style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
-                      widget.voting==BigInt.from(0)?Text("0"): Text(widget.voting.toString(),style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
-                    ],
-                  )
-                ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: TextFormField(
+                    keyboardType: TextInputType.text,
+                    controller: reason,
+                    obscureText: false,
+                    style: style,
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(15,10,15,10),
+                        hintText: "Reason for challenge",
+                        border:
+                        OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
               Center(
                 child: CupertinoButton.filled(
-                  child: Text("Change Allowances"),
+                  child: Text("Challenge"),
                   onPressed: () async {
-                    await _transactionStatus().then((val){
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Toast.show("Please wait..", context);
+                    await _transactionStatus().then((val)async {
 
                       if(transacting){
 
                         Toast.show("Another Transaction is in progress",context, duration: Toast.LENGTH_LONG);
                       }
                       else{
-                        Navigator.pushNamed(context, '/allowance');
+                        Toast.show("Please wait..", context);
+                        EthWrapper wrapper = new EthWrapper();
+                        await wrapper.newChallenge(widget.model.listingHash, double.parse(amount.text), reason.text);
+
+                        //widget.mapState.currentState.refresh();
+                        Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
 
                       }
                     });
@@ -136,14 +169,14 @@ class _BalanceCardState extends State<BalanceCard> {
 
         print("here");
         ScannerWrapper wrapper = new ScannerWrapper();
-        await  wrapper.getDetails(hash).then((jss) async {
+        await  wrapper.getDetails(hash).then((jss){
 
           print("checking:"+jss.toString());
           setState(() {
             json =jss;
           });
           jos =jss;
-          await _check();
+          _check();
           setState(() {
             loading =false;
           });
@@ -167,11 +200,12 @@ class _BalanceCardState extends State<BalanceCard> {
     }
     if(json["message"]=="NOTOK"||json["result"]["status"]=="0"){
       setState(() {
-        print("transaction mereged");
+        print("Transaction failed");
         transacting =false;
         err= true;
       });
       print("err: check"+err.toString());
     }
   }
+
 }

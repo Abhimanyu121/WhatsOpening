@@ -6,7 +6,7 @@ import 'package:flu/Wrappers/MapBoxApiWrapper.dart';
 import 'package:geolocator/geolocator.dart';
 class MapUi extends StatefulWidget{
   Function(POIModel) setModel;
-  MapUi({this.setModel});
+  MapUi({this.setModel, Key key}):super(key: key);
   @override
   MapState createState() => new MapState();
 }
@@ -23,7 +23,7 @@ class MapState extends State<MapUi> {
     target: LatLng(28.7041, 77.1025),
     zoom: 11.0,
   );
-  _getLoc()async {
+  getLoc()async {
     var pos =  await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print("current loc");
     print(pos.latitude.toString()+pos.longitude.toString());
@@ -40,7 +40,16 @@ class MapState extends State<MapUi> {
     print(selected.name);
     widget.setModel(selected);
   }
+  refresh(){
+    wrapper.clear();
+    widget.setModel(null);
+    getLoc().then((pos){
+      _fetchPOI(pos).then((a){
 
+      });
+    });
+
+  }
   _fetchPOI(Position pos) async {
     if(dots == null ){
       CameraUpdate cu = CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(pos.latitude,pos.longitude,),zoom: 10));
@@ -89,11 +98,7 @@ class MapState extends State<MapUi> {
     // TODO: implement initState
     super.initState();
 
-    _getLoc().then((pos){
-      _fetchPOI(pos).then((a){
 
-      });
-    });
   }
 
   _extractMapInfo() async  {
@@ -134,6 +139,11 @@ class MapState extends State<MapUi> {
     mapController = controller;
     mapController.addListener(_onMapChanged);
     mapController.onSymbolTapped.add(_selectCircle);
+    getLoc().then((pos){
+      _fetchPOI(pos).then((a){
+
+      });
+    });
   }
 
   @override

@@ -4,8 +4,6 @@ import 'package:flu/Widgets/BalanceCard.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flu/Widgets/TransactionWidget.dart';
-import 'package:flu/Wrappers/EtherscanWrapper.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 class Dashboard extends StatefulWidget{
   @override
   DashboardState createState() => new DashboardState();
@@ -89,75 +87,6 @@ class DashboardState extends State<Dashboard>{
       ),
 
     );
-  }
-  _transactionStatus()async {
-    await SharedPreferences.getInstance().then((prefs)async {
-      var jos;
-      bool transaction = prefs.getBool("transacting");
-      String hash= prefs.getString("hash");
-      //hash = "0x27fc3579c8fc51d1d9d673ee36efea8d0f5b2237579fd4a5d757326f5805c1fc ";
-      if(transaction ==true){
-        setState(() {
-          transacting =true;
-        });
-      }else{
-        setState(() {
-          transacting= false;
-        });}
-      if(hash ==""||hash==null){
-        setState(() {
-          noTransactions = true;
-        });
-        Map mv ={"status":"0"};
-        setState(() {
-          loading2 =false;
-        });
-        return mv;
-      }else{
-        setState(() {
-          this.hash = hash;
-          noTransactions =false;
-        });
-
-        print("here");
-        ScannerWrapper wrapper = new ScannerWrapper();
-        await  wrapper.getDetails(hash).then((jss) async {
-
-          print("checking:"+jss.toString());
-          setState(() {
-            json =jss;
-          });
-          jos =jss;
-          await _check();
-          setState(() {
-            loading2 =false;
-          });
-          return jss;
-        });
-      }
-      return jos;
-    });
-  }
-  _check()async{
-    if(json["result"]["status"]=="1"||json["message"]=="NOTOK"||json["result"]["Status"]=="0"){
-      await SharedPreferences.getInstance().then((prefs){
-        setState(() {
-          transacting=false;
-          print("transaction mereged");
-          print("check2:"+transacting.toString());
-        });
-        prefs.setBool("transacting", false);
-      });
-
-    }
-    if(json["message"]=="NOTOK"||json["result"]["Status"]=="0"){
-      setState(() {
-        print("transaction mereged");
-        transacting =false;
-        err= true;
-      });
-      print("err: check"+err.toString());
-    }
   }
 
 }

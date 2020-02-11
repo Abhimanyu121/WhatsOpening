@@ -1,9 +1,18 @@
+import 'package:flu/Models/ArgListPanelChallege.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Models/POIModel.dart';
+import 'package:flu/Widgets/ChallengeWidget.dart';
+
+import 'Map.dart';
 class PanelUi extends StatefulWidget{
   POIModel model;
-  PanelUi(POIModel model){
+  Function refresh;
+  GlobalKey<MapState> _MapState;
+  PanelUi(POIModel model, Key key, Function refresh){
     this.model = model;
+    this._MapState = key;
+    this.refresh = refresh;
   }
   @override
   PanelState createState() =>PanelState() ;
@@ -19,7 +28,8 @@ class PanelState extends State<PanelUi>{
 
 
     // TODO: implement build
-    print("building stuff");
+    print("check state");
+    print(widget.model.state);
     return Container(
       child: Column(
 
@@ -71,40 +81,55 @@ class PanelState extends State<PanelUi>{
               ),
             ),
           ),
-
           SizedBox(
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(15.0,10.0,8,8),
             child: Text(
-              "Does this place exist on site?",
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              "Owner:",
+              style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0,10.0,8,8),
+            child: Text(
+              "${widget.model.owner}",
+              style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0,10.0,8,8),
+            child: Text(
+              "Status:",
+              style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0,10.0,8,8),
+            child: Text(
+              "${widget.model.state}",
+              style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
             ),
           ),
           SizedBox(
             height: 10,
           ),
           Center(
-            child: Row(
-              mainAxisAlignment:  MainAxisAlignment.center,
-              children: <Widget>[
-
-                RaisedButton(
-                  color: Colors.green,
-                  onPressed: (){},
-                  child: Icon(Icons.check),
-                ),
-                SizedBox(
-                  width: 35,
-                ),
-                RaisedButton(
-                  color: Colors.redAccent,
-                  onPressed: (){},
-                  child: Icon(Icons.cancel),
-                )
-              ],
-            ),
+            child: widget.model.state=="applied"?CupertinoButton.filled(child: Text("Challenge the Place"), onPressed: (){
+              ArgListPanelChallenge args= new ArgListPanelChallenge();
+              args.model= widget.model;
+              args.key = widget._MapState;
+              widget.refresh();
+              Navigator.pushNamed(
+                context,
+                '/ChallengeScreen',
+                arguments: args,
+              );
+            }):Container(),
           ),
           SizedBox(
             height: 100,

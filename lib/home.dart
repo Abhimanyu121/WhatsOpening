@@ -10,15 +10,24 @@ class Home extends StatefulWidget{
 class HomeState extends State<Home>{
   POIModel model;
   bool mode = true;
+  MapUi map;
 
   setModel(POIModel model){
-    print("at callbaxk");
     setState(() {
       this.model = model;
     });
   }
+  _refresh(){
+    this.model = null;
+
+  }
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<MapState> _MapState = GlobalKey<MapState>();
 
     return SlidingUpPanel(
       backdropTapClosesPanel: true,
@@ -38,7 +47,7 @@ class HomeState extends State<Home>{
               Navigator.pushNamed(context, '/dashboard');
             },
           )
-          ,):new PanelUi(model),
+          ,):new PanelUi(model,_MapState,_refresh),
       ),
       collapsed: Container(),
       body: CupertinoPageScaffold(

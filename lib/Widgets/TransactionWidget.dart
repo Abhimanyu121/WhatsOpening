@@ -107,7 +107,7 @@ class _TransactionViewState extends State<TransactionView>  with TickerProviderS
                               children: <Widget>[
                                 noTransactions?Text(""):!transacting?Icon(Icons.check,color: Colors.black,):SpinKitWave(size: 30,color: Colors.indigo,),
                                 SizedBox(width: 20,),
-                                noTransactions?Text(""):Text(transacting?"Not Merged yet!":"Transaction merged", style: TextStyle(color:Colors.black),)
+                                noTransactions?Text(""):Text(transacting?"Not Merged yet!":err?"Transaction failed":"Transaction merged", style: TextStyle(color:Colors.black),)
                               ],
                             )
                         ),
@@ -204,7 +204,7 @@ class _TransactionViewState extends State<TransactionView>  with TickerProviderS
     });
   }
   _check()async{
-    if(json["result"]["status"]=="1"||json["message"]=="NOTOK"||json["result"]["Status"]=="0"){
+    if(json["result"]["status"]=="1"||json["message"]=="NOTOK"){
       await SharedPreferences.getInstance().then((prefs){
         setState(() {
           transacting=false;
@@ -215,7 +215,7 @@ class _TransactionViewState extends State<TransactionView>  with TickerProviderS
       });
 
     }
-    if(json["message"]=="NOTOK"||json["result"]["Status"]=="0"){
+    if(json["message"]=="NOTOK"||json["result"]["status"]=="0"){
       setState(() {
         print("Transaction failed");
         transacting =false;

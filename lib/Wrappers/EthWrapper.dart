@@ -1,6 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
+import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 class EthWrapper {
   static const rpcUrl = "https://rinkeby.infura.io/v3/0e4ce57afbd04131b6842f08265b4d4b";
@@ -81,6 +85,36 @@ class EthWrapper {
       ),
       chainId: 4,
     );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("hash", response);
+    prefs.setBool("transacting", true);
+    await client.dispose();
+    return response;
+  }
+
+  Future<dynamic> newChallenge(String hash, double stake, String data) async {
+    var pvt = "6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0";
+    Credentials credentials = EthPrivateKey.fromHex(pvt);
+    final client = Web3Client(rpcUrl, http.Client());
+    var abi = await rootBundle.loadString("assets/registry.json");
+    print(hash.length);
+    var ls= hexToBytes(hash);
+    //var uint8list= Uint8List.fromList(hash.codeUnits);
+    print(ls);
+    final contract  =  DeployedContract(ContractAbi.fromJson(abi, "registry"),EthereumAddress.fromHex(registry));
+    var challenge  = contract.function('challenge');
+    var response = await client.sendTransaction(
+      credentials,
+      Transaction.callContract(
+          contract: contract,
+          function: challenge,
+          gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
+          maxGas: 4000000,
+          parameters: [ls,BigInt.from(stake*1000)*BigInt.from(1000000000000000),data]
+      ),
+      chainId: 4,
+    );
+    print(response);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("hash", response);
     prefs.setBool("transacting", true);

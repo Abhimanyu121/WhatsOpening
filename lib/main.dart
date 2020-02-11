@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flu/home.dart';
 import 'Screens/Dashboard.dart';
 import 'Screens/Allowance.dart';
+import 'Screens/ChallengeScreen.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/dashboard': (context) => Dashboard(),
         '/allowance': (context) => AllowancePage(),
+        '/ChallengeScreen': (context) => ChallengeScreen(),
       },
       title: 'FOAM MAP',
       theme: CupertinoThemeData(
