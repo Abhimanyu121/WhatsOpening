@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flu/ThemeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 class PoiWidget extends StatefulWidget{
   GlobalKey<MapState> mapState;
   POIModel model;
@@ -15,6 +17,8 @@ class PoiWidget extends StatefulWidget{
   PoiWidgetState createState() => new PoiWidgetState();
 }
 class PoiWidgetState extends State<PoiWidget>{
+  bool _loading = true;
+  bool bal;
   TextEditingController amount = TextEditingController();
   TextEditingController reason = TextEditingController();
   bool transacting =false;
@@ -24,11 +28,72 @@ class PoiWidgetState extends State<PoiWidget>{
   Map json={"result":{"status":"0"}};
   bool err =false;
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 15.0);
-
+  _fetchBal()async {
+    EthWrapper wrapper= new EthWrapper();
+    double bal = await  wrapper.regAllow();
+    return bal;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _fetchBal().then((val){
+      setState(() {
+        this.bal = val>=100;
+        _loading = false;
+      });
+    });
+  }
+  Widget lessBal = Container(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          //color: Colors.white,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(colors: [
+                AppTheme.nearlyDarkBlue,
+                HexColor("#6F56E8")
+              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  bottomLeft: Radius.circular(8.0),
+                  bottomRight: Radius.circular(8.0),
+                  topRight: Radius.circular(8.0)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppTheme.grey.withOpacity(0.6),
+                    offset: Offset(1.1, 1.1),
+                    blurRadius: 10.0),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text("Not Enough Approved Tokens", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text("To be able to create POI, you need to stake minimum 100FOAM tokens. You can Approve tokens in dashboard, and then try again.",style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Padding(
+    return _loading?SpinKitFadingCircle(size:50, color:Colors.blue):!bal?lessBal: Padding(
       padding: const EdgeInsets.only(
           left: 24, right: 24, top: 16, bottom: 18),
       child: Container(

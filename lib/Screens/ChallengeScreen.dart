@@ -27,7 +27,7 @@ class ChallengeScreenState extends State<ChallengeScreen>{
       loading= true;
     });
     EthWrapper wrapper = new EthWrapper();
-    var regBal = await wrapper.regAllowance();
+    var regBal = await wrapper.balances();
     setState(() {
       loading = false;
       this.regBal = regBal[0];

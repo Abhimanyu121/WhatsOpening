@@ -25,7 +25,7 @@ class DashboardState extends State<Dashboard>{
       loading= true;
     });
     EthWrapper wrapper = new EthWrapper();
-    var regBal = await wrapper.regAllowance();
+    var regBal = await wrapper.balances();
     setState(() {
       loading = false;
       this.regBal = regBal[0];
@@ -59,7 +59,7 @@ class DashboardState extends State<Dashboard>{
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   Center(
-                    child: CupertinoButton.filled(child: Icon(Icons.refresh), onPressed:_getRegAllow),
+                    child: CupertinoButton.filled(child: Icon(Icons.refresh), onPressed:_getRegAllow, borderRadius: BorderRadius.all(Radius.circular(68)),),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -76,9 +76,12 @@ class DashboardState extends State<Dashboard>{
                   SizedBox(
                     height: 10,
                   ),
-                  loading?SpinKitDualRing(size: 10, color: Colors.blue,):BalanceCard(reg: BigInt.from(regBal), voting: BigInt.from(voteBal),total: BigInt.from(totalBal),),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: loading?SpinKitFadingCircle(size:50, color:Colors.blue):BalanceCard(reg: BigInt.from(regBal), voting: BigInt.from(voteBal),total: BigInt.from(totalBal),),
 
-
+                  )
+                  
                 ],
 
               ),

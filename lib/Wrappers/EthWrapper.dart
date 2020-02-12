@@ -8,7 +8,7 @@ class EthWrapper {
   static const token = "0x07685afc0c088f4b2236bf228c39c0336ed89e67";
   static const registry = "0x92ae8d38990aaA0E5180f7161A68dF54395952a1";
   static const voting = "0xe7a3fc437f8c0b4658ca8add30d87b7141f6e628";
-  Future<List> regAllowance() async {
+  Future<List> balances() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var pvt = prefs.getString("privateKey");
     Credentials credentials = EthPrivateKey.fromHex(pvt);
@@ -44,6 +44,26 @@ class EthWrapper {
     double bal3 = vr3.toDouble()/1000.0;
     await client.dispose();
     return [bal,bal2,bal3];
+  }
+  Future<double> regAllow()async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
+    Credentials credentials = EthPrivateKey.fromHex(pvt);
+    var address = await credentials.extractAddress();
+    print(address);
+    final client = Web3Client(rpcUrl, http.Client());
+    var abi = await rootBundle.loadString("assets/token.json");
+    final contract  =  DeployedContract(ContractAbi.fromJson(abi, "StandardTOken"),EthereumAddress.fromHex(token));
+    var allowance  = contract.function('allowance');
+    var response = await client.call(
+      contract: contract,
+      function: allowance ,
+      params: [address, EthereumAddress.fromHex(registry)],
+    );
+    BigInt vr = BigInt.from(BigInt.parse(response.toString().substring(1,response.toString().length-1))/BigInt.from(1000000000000000));
+    double bal = vr.toDouble()/1000.0;
+    await client.dispose();
+    return bal;
   }
   Future<String> approveReg (double amount)async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
