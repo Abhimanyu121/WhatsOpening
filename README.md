@@ -1,6 +1,8 @@
 # Foam Maps
 Flutter based Mobile application for FOAM Maps.<br/></br>
-<img src="assets/blumark.png" width="120" height="150">
+<img src="assets/blumark.png" width="120" height="150"><br/></br>
+**Check Releases for apk.**</br>
+[Releases](https://github.com/Abhimanyu121/foamMap/releases/download/FOAM-Maps-v1-pre-releasae/app-release.apk)
 ## Features
 - Users get a notification if they are near any Point of intrest(to keep it battery friendly it checks only if user moves significantly, for testing(111km approx, change of 1 Latitude or 1 Longitude), so create a POI on rinkeby before you initially start app or force stop application and start application again)
 - Users can view all POIs , Maps loads dynamically as user moves through map.
