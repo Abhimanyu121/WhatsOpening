@@ -2,10 +2,11 @@ import 'package:flu/Models/ArgListPanelChallege.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Models/POIModel.dart';
-import 'package:flu/Widgets/ChallengeWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Map.dart';
 class PanelUi extends StatefulWidget{
+
   POIModel model;
   Function refresh;
   GlobalKey<MapState> _MapState;
@@ -119,16 +120,26 @@ class PanelState extends State<PanelUi>{
             height: 10,
           ),
           Center(
-            child: widget.model.state=="applied"?CupertinoButton.filled(child: Text("Challenge the Place"), onPressed: (){
+            child: widget.model.state=="applied"?CupertinoButton.filled(child: Text("Challenge the Place"), onPressed: ()async {
               ArgListPanelChallenge args= new ArgListPanelChallenge();
               args.model= widget.model;
               args.key = widget._MapState;
               widget.refresh();
-              Navigator.pushNamed(
-                context,
-                '/ChallengeScreen',
-                arguments: args,
-              );
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              var pvt = prefs.getString("privateKey");
+              if(pvt!=null){
+                Navigator.pushNamed(
+                  context,
+                  '/ChallengeScreen',
+                  arguments: args,
+                );
+              }
+              else{
+                Navigator.pushNamed(context, '/LoginWithouSkip');
+              }
+
+
+
             }):Container(),
           ),
           SizedBox(

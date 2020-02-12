@@ -10,6 +10,7 @@ import android.location.Location
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
@@ -46,6 +47,13 @@ class FoamService : IntentService("WithdrawSerivice"){
         val queue = Volley.newRequestQueue(this)
 
         try {
+            val resultIntent = Intent(this, MainActivity::class.java)
+            val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+                // Add the intent, which inflates the back stack
+                addNextIntentWithParentStack(resultIntent)
+                // Get the PendingIntent containing the entire back stack
+                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
+            }
             var fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
            while(true){
 
@@ -70,7 +78,7 @@ class FoamService : IntentService("WithdrawSerivice"){
                                                        .setContentTitle("POI Nearby")
                                                        .setContentText("There are ${response.length()} places near you")
                                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
+                                                       .setContentIntent(resultPendingIntent)
                                                with(NotificationManagerCompat.from(this)) {
                                                    // notificationId is a unique int for each notification that you must define
                                                    notify(1, builder.build())
@@ -83,6 +91,7 @@ class FoamService : IntentService("WithdrawSerivice"){
                                                        .setContentTitle("POI Nearby")
                                                        .setContentText("You are near ${response.getJSONObject(0)["name"]}")
                                                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                       .setContentIntent(resultPendingIntent)
                                                with(NotificationManagerCompat.from(this)) {
                                                    // notificationId is a unique int for each notification that you must define
                                                    notify(1, builder.build())

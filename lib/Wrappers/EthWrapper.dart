@@ -1,10 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 class EthWrapper {
   static const rpcUrl = "https://rinkeby.infura.io/v3/0e4ce57afbd04131b6842f08265b4d4b";
@@ -12,6 +9,11 @@ class EthWrapper {
   static const registry = "0x92ae8d38990aaA0E5180f7161A68dF54395952a1";
   static const voting = "0xe7a3fc437f8c0b4658ca8add30d87b7141f6e628";
   Future<List> regAllowance() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
+    Credentials credentials = EthPrivateKey.fromHex(pvt);
+    var address = await credentials.extractAddress();
+    print(address);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/token.json");
     final contract  =  DeployedContract(ContractAbi.fromJson(abi, "StandardTOken"),EthereumAddress.fromHex(token));
@@ -19,18 +21,18 @@ class EthWrapper {
     var response = await client.call(
       contract: contract,
       function: allowance ,
-      params: [EthereumAddress.fromHex("0x2Ee331840018465bD7Fe74aA4E442b9EA407fBBE"), EthereumAddress.fromHex(registry)],
+      params: [address, EthereumAddress.fromHex(registry)],
     );
     var response2 = await client.call(
       contract: contract,
       function: allowance ,
-      params: [EthereumAddress.fromHex("0x2Ee331840018465bD7Fe74aA4E442b9EA407fBBE"), EthereumAddress.fromHex(voting)],
+      params: [address, EthereumAddress.fromHex(voting)],
     );
     var balance   = contract.function('balanceOf');
     var response3 = await client.call(
       contract: contract,
       function: balance ,
-      params: [EthereumAddress.fromHex("0x2Ee331840018465bD7Fe74aA4E442b9EA407fBBE")],
+      params: [address],
     );
     print(response.toString());
     print(response3.toString());
@@ -44,7 +46,8 @@ class EthWrapper {
     return [bal,bal2,bal3];
   }
   Future<String> approveReg (double amount)async {
-    var pvt = "6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
     Credentials credentials = EthPrivateKey.fromHex(pvt);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/token.json");
@@ -61,14 +64,14 @@ class EthWrapper {
       ),
       chainId: 4,
     );
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("hash", response);
     prefs.setBool("transacting", true);
     await client.dispose();
     return response;
   }
   Future<String> approveVote (double amount)async {
-    var pvt = "6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
     Credentials credentials = EthPrivateKey.fromHex(pvt);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/token.json");
@@ -85,7 +88,6 @@ class EthWrapper {
       ),
       chainId: 4,
     );
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("hash", response);
     prefs.setBool("transacting", true);
     await client.dispose();
@@ -93,7 +95,8 @@ class EthWrapper {
   }
 
   Future<dynamic> newChallenge(String hash, double stake, String data) async {
-    var pvt = "6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
     Credentials credentials = EthPrivateKey.fromHex(pvt);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/registry.json");
@@ -115,7 +118,6 @@ class EthWrapper {
       chainId: 4,
     );
     print(response);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("hash", response);
     prefs.setBool("transacting", true);
     await client.dispose();

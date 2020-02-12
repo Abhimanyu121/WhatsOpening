@@ -123,9 +123,7 @@ class PoiWidgetState extends State<PoiWidget>{
                         Toast.show("Please wait..", context);
                         EthWrapper wrapper = new EthWrapper();
                         await wrapper.newChallenge(widget.model.listingHash, double.parse(amount.text), reason.text);
-
-                        //widget.mapState.currentState.refresh();
-                        Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
 
                       }
                     });
