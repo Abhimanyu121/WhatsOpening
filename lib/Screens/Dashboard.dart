@@ -81,7 +81,6 @@ class DashboardState extends State<Dashboard>{
                     child: loading?SpinKitFadingCircle(size:50, color:Colors.blue):BalanceCard(reg: BigInt.from(regBal), voting: BigInt.from(voteBal),total: BigInt.from(totalBal),),
 
                   )
-                  
                 ],
 
               ),

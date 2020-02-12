@@ -59,11 +59,28 @@ class HomeState extends State<Home>{
       panel: Center(
         child: model==null?FoamInfo():new PanelUi(model,_MapState,_refresh),
       ),
-      collapsed: Container(),
+      collapsed: model==null?Container(
+        child: Card(
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.center,
+              child: Center(
+
+                  child: Text("Welcome to FOAM Maps", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold,fontSize: 20),
+                  )),
+            ),
+          ),
+        ),
+      ): Container(),
       body: CupertinoPageScaffold(
 
         navigationBar: CupertinoNavigationBar(
-          trailing: Icon(Icons.gps_fixed, size: 20,),
           middle: Text(
             "FOAM Maps",
             style: TextStyle(fontWeight: FontWeight.bold),

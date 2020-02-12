@@ -143,5 +143,31 @@ class EthWrapper {
     await client.dispose();
     return response;
   }
+  Future<bool> addPOI(String listingHash, double amount, String data)async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var pvt = prefs.getString("privateKey");
+    Credentials credentials = EthPrivateKey.fromHex(pvt);
+    final client = Web3Client(rpcUrl, http.Client());
+    var abi = await rootBundle.loadString("assets/registry.json");
+    var ls= hexToBytes(listingHash);
+    final contract  =  DeployedContract(ContractAbi.fromJson(abi, "registry"),EthereumAddress.fromHex(registry));
+    var challenge  = contract.function('apply');
+    var response = await client.sendTransaction(
+      credentials,
+      Transaction.callContract(
+          contract: contract,
+          function: challenge,
+          gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
+          maxGas: 4000000,
+          parameters: [ls,BigInt.from(amount*1000)*BigInt.from(1000000000000000),data]
+      ),
+      chainId: 4,
+    );
+    print(response);
+    prefs.setString("hash", response);
+    prefs.setBool("transacting", true);
+    await client.dispose();
+    return true;
+  }
 
 }

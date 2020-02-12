@@ -87,6 +87,21 @@ class MapBoxApiWrapper {
     }
 
   }
+  Future<String> addPoi(String geoHash, String address, String name,String description, List<String> tags)async {
+    const String url = "https://rink-cd-api.foam.space/poi/ipfs";
+    Map<String, String> body = new Map<String, String>();
+    body["geohash"] = geoHash;
+    body["address"] = address;
+    body["name"] = name;
+    body["description"] = description;
+    body["tags"] = tags.toString();
+    body["phone"] = "(123) 456-789";
+    body["uUID"] = "00000400-0000-0800-0000-100000002000";
+    body["web"] = "https://maps.bing.com";
+    var resp = await http.post(url, body:body);
+    print(resp.body);
+    return resp.body;
+  }
   void clear(){
     instance = false;
   }
