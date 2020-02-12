@@ -5,24 +5,24 @@ import 'package:geohash/geohash.dart';
 import 'package:flu/Wrappers/MapBoxApiWrapper.dart';
 import 'package:geolocator/geolocator.dart';
 class MapUi extends StatefulWidget{
+  CameraPosition kInitialPosition;
+  MapboxMapController mapController;
   Function(POIModel) setModel;
-  MapUi({this.setModel, Key key}):super(key: key);
+  MapUi({this.setModel,this.kInitialPosition, Key key,}):super(key: key);
   @override
   MapState createState() => new MapState();
 }
 class MapState extends State<MapUi> {
   MapboxMapController mapController;
-  CameraPosition _position = _kInitialPosition;
+  CameraPosition _position;
   MapBoxApiWrapper wrapper;
   List dots;
   Map mapping;
   var lat;
   var lng;
   POIModel selected;
-  static final CameraPosition _kInitialPosition = const CameraPosition(
-    target: LatLng(28.7041, 77.1025),
-    zoom: 11.0,
-  );
+
+
   getLoc()async {
     var pos =  await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     print("current loc");
@@ -97,6 +97,7 @@ class MapState extends State<MapUi> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _position =  widget.kInitialPosition;
 
 
   }
@@ -137,6 +138,7 @@ class MapState extends State<MapUi> {
 
   _onMapCreated(MapboxMapController controller) {
     mapController = controller;
+    widget.mapController = controller;
     mapController.addListener(_onMapChanged);
     mapController.onSymbolTapped.add(_selectCircle);
     getLoc().then((pos){
@@ -151,7 +153,7 @@ class MapState extends State<MapUi> {
 
     return MapboxMap(
       trackCameraPosition: true,
-      initialCameraPosition: _kInitialPosition,
+      initialCameraPosition: widget.kInitialPosition,
       compassEnabled: true,
       onMapCreated: _onMapCreated,
     );

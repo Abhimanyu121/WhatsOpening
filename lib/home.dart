@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:flu/Screens/Map.dart';
@@ -15,6 +17,7 @@ class HomeState extends State<Home>{
   POIModel model;
   bool mode = true;
   MapUi map;
+  CameraPosition _pos;
 
   setModel(POIModel model){
     setState(() {
@@ -28,6 +31,11 @@ class HomeState extends State<Home>{
   @override
   void initState() {
     super.initState();
+    _pos = const CameraPosition(
+      target: LatLng(28.7041, 77.1025),
+      zoom: 11.0,
+    );
+    map = MapUi(setModel: setModel,kInitialPosition: _pos,);
   }
   @override
   Widget build(BuildContext context) {
@@ -65,7 +73,7 @@ class HomeState extends State<Home>{
         child: Stack(
 
             children:[
-              MapUi(setModel: setModel,),
+              map  ,
               Positioned(
                 right: 20.0,
                 bottom: _fabHeight,
@@ -74,7 +82,11 @@ class HomeState extends State<Home>{
                     Icons.gps_fixed,
                     color: Theme.of(context).primaryColor,
                   ),
-                  onPressed: (){},
+                  onPressed: ()async {
+                    var pos =  await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+                    CameraUpdate cu = CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(pos.latitude,pos.longitude,),zoom: 10));
+                    map.mapController.moveCamera(cu);
+                  },
                   backgroundColor: Colors.white,
                 ),
               ),
