@@ -2,7 +2,7 @@
 Flutter based Mobile application for FOAM Maps.
 
 ## Features
-- Users get a notification if they are near any Point of interst(to keep it battery friendly it checks only if user moves significantly, for testing(111km approx, change of 1 Latitude or 1 Longitude), so create a POI on rinkeby before you initially start app or force stop application and start application again)
+- Users get a notification if they are near any Point of intrest(to keep it battery friendly it checks only if user moves significantly, for testing(111km approx, change of 1 Latitude or 1 Longitude), so create a POI on rinkeby before you initially start app or force stop application and start application again)
 - Users can view all POIs , Maps loads dynamically as user moves through map.
 - Users can Challenge POIs.
 - Users can Access their dashboard and manage FOAM token allowences.
@@ -20,3 +20,8 @@ Flutter based Mobile application for FOAM Maps.
 ##### Note :- Proper exceptional handling is not added as of now, please refrain from using exceptional values
 ##### Note :- Nearby POIs are looked only if user moves, to keep everything light, since distance is about 111km(1 latitude and 1 longitude), you can verify the background service code at [FoamService.kt](https://github.com/Abhimanyu121/foamMap/blob/master/android/app/src/main/kotlin/trellislabs/flu/FoamService.kt) in android module.
 
+## Screenshots
+|<img src="Screenshots/1.jpg" width="400">|<img src="Screenshots/2.jpg" width="400">
+|<img src="Screenshots/3.jpg" width="400">|<img src="Screenshots/4.jpg" width="400">
+|<img src="Screenshots/5.jpg" width="400">|<img src="Screenshots/6.jpg" width="400">
+|<img src="Screenshots/8.jpg" width="400">|<img src="Screenshots/7.jpg" width="400">
