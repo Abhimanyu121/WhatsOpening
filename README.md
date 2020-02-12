@@ -18,5 +18,5 @@ Flutter based Mobile application for FOAM Maps.
 - Adding webSockets support dynamic refresh.
 ##### Note :- You can use `6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0` it has FOAM tokens on rinkeby.
 ##### Note :- Proper exceptional handling is not added as of now, please refrain from using exceptional values
-##### Note :- Nearby POIs are looked only if user moves, to keep everything light, since distance is about 111km(1 latitude and 1 longitude), you can verify the background service code at FoamService.kt in android module.
+##### Note :- Nearby POIs are looked only if user moves, to keep everything light, since distance is about 111km(1 latitude and 1 longitude), you can verify the background service code at [FoamService.kt](https://github.com/Abhimanyu121/foamMap/blob/master/android/app/src/main/kotlin/trellislabs/flu/FoamService.kt) in android module.
 
