@@ -7,6 +7,7 @@ import 'Screens/Allowance.dart';
 import 'Screens/ChallengeScreen.dart';
 import 'Screens/LoginWithSkip.dart';
 import 'Screens/LoginWithoutSkip.dart';
+import 'Screens/NewPoi.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         '/LoginWithSkip': (context) => LoginWithSkip(),
         '/LoginWithoutSkip': (context) => LoginWithoutSkip(),
         '/home' : (context ) => Home(),
+        '/AddPoi': (context) => NewPoi(),
       },
       title: 'FOAM MAP',
       theme: CupertinoThemeData(

@@ -43,7 +43,6 @@ class DashboardState extends State<Dashboard>{
     // TODO: implement build
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-          trailing: Icon(Icons.gps_fixed, size: 20,),
           middle: Text(
             "Dashboard",
             style: TextStyle(fontWeight: FontWeight.bold),

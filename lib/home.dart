@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geohash/geohash.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,11 +18,13 @@ class HomeState extends State<Home>{
   POIModel model;
   bool mode = true;
   MapUi map;
+  bool selection = false;
   CameraPosition _pos;
 
   setModel(POIModel model){
     setState(() {
       this.model = model;
+      this.selection = false;
     });
   }
   _refresh(){
@@ -37,8 +40,33 @@ class HomeState extends State<Home>{
     );
     map = MapUi(setModel: setModel,kInitialPosition: _pos,);
   }
+
   @override
   Widget build(BuildContext context) {
+    Widget addPOI = new Padding(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Add new Point of Interest?\nMove place under the pin", style: TextStyle(color: Colors.black),),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width*0.4,
+              child: CupertinoButton.filled(
+
+                child: Text("Add POI"),
+                onPressed:()  {
+                  var encoded =  Geohash.encode(map.mapController.cameraPosition.target.latitude,map.mapController.cameraPosition.target.longitude);
+                  Navigator.pushNamed(context, '/AddPoi',arguments: encoded);
+                },
+              ),
+            )
+
+
+          ],
+        )
+    );
     final GlobalKey<MapState> _MapState = GlobalKey<MapState>();
     final double _initFabHeight = 120.0;
     double _fabHeight = 120.0;
@@ -59,7 +87,7 @@ class HomeState extends State<Home>{
       panel: Center(
         child: model==null?FoamInfo():new PanelUi(model,_MapState,_refresh),
       ),
-      collapsed: model==null?Container(
+      collapsed: model==null?selection?addPOI:Container(
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
@@ -81,10 +109,12 @@ class HomeState extends State<Home>{
       body: CupertinoPageScaffold(
 
         navigationBar: CupertinoNavigationBar(
+
           middle: Text(
             "FOAM Maps",
             style: TextStyle(fontWeight: FontWeight.bold),
-          )
+          ),
+
         ),
 
         child: Stack(
@@ -95,6 +125,7 @@ class HomeState extends State<Home>{
                 right: 20.0,
                 bottom: _fabHeight,
                 child: FloatingActionButton(
+                  heroTag: "asd",
                   child: Icon(
                     Icons.gps_fixed,
                     color: Theme.of(context).primaryColor,
@@ -106,6 +137,47 @@ class HomeState extends State<Home>{
                   },
                   backgroundColor: Colors.white,
                 ),
+              ),
+              Positioned(
+                left: 20.0,
+                bottom: _fabHeight,
+                child: FloatingActionButton(
+                  heroTag: "sddf",
+                  child: !selection?Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColor,
+                  ):Icon(
+                    Icons.close,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      if(selection){
+                        selection = false;
+                      }else{
+                        model=null;
+                        selection = true;
+                      }
+
+                    });
+                  },
+                  backgroundColor: Colors.white,
+                ),
+              ),
+              !selection ?Container():Align(
+                alignment: Alignment.center,
+                child: FloatingActionButton(
+                  heroTag: "qwe",
+                  child: Image.asset("assets/pin.png",scale: 0.0001,),
+                  onPressed: () {
+                    setState(() {
+                      model=null;
+                      selection = true;
+                    });
+                  },
+                  backgroundColor: Colors.transparent,
+                ),
+
               ),
 
               Positioned(

@@ -81,7 +81,7 @@ class PoiWidgetState extends State<PoiWidget>{
                   SizedBox(
                     height: 10,
                   ),
-                  Text("To be able to create POI, you need to stake minimum 100FOAM tokens. You can Approve tokens in dashboard, and then try again.",style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),),
+                  Text("To be able to Challenge POI, you need to stake minimum 100FOAM tokens. You can Approve tokens in dashboard, and then try again.",style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),),
                 ],
               ),
             ),

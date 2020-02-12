@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/services.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
@@ -143,13 +146,28 @@ class EthWrapper {
     await client.dispose();
     return response;
   }
-  Future<bool> addPOI(String listingHash, double amount, String data)async {
+  Future<bool> addPOI(String geohash, double amount, String data)async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var pvt = prefs.getString("privateKey");
     Credentials credentials = EthPrivateKey.fromHex(pvt);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/registry.json");
-    var ls= hexToBytes(listingHash);
+    print(geohash);
+    String ls= int.parse(geohash,radix: 36).toRadixString(16);
+    var bt = hexToBytes(ls);
+    print(bt);
+    print(ls);
+    var lt= Uint8List(32);
+    int j =0;
+    for(int i = 0; i<32;i++){
+      if(i<=23){
+        lt[i]=0;
+      }
+      else{
+        lt[i] = bt[j];
+        j++;
+      }
+    }
     final contract  =  DeployedContract(ContractAbi.fromJson(abi, "registry"),EthereumAddress.fromHex(registry));
     var challenge  = contract.function('apply');
     var response = await client.sendTransaction(
@@ -159,7 +177,7 @@ class EthWrapper {
           function: challenge,
           gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
           maxGas: 4000000,
-          parameters: [ls,BigInt.from(amount*1000)*BigInt.from(1000000000000000),data]
+          parameters: [lt,BigInt.from(amount*1000)*BigInt.from(1000000000000000),data]
       ),
       chainId: 4,
     );

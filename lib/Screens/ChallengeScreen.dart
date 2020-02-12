@@ -47,7 +47,6 @@ class ChallengeScreenState extends State<ChallengeScreen>{
     // TODO: implement build
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-          trailing: Icon(Icons.gps_fixed, size: 20,),
           middle: Text(
             "Challenge POI",
             style: TextStyle(fontWeight: FontWeight.bold),

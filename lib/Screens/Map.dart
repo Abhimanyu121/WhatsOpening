@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:flu/Models/POIModel.dart';
@@ -50,6 +52,10 @@ class MapState extends State<MapUi> {
     });
 
   }
+  _getLatLangOfTap(){
+
+  }
+
   _fetchPOI(Position pos) async {
     if(dots == null ){
       CameraUpdate cu = CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(pos.latitude,pos.longitude,),zoom: 10));
@@ -103,32 +109,35 @@ class MapState extends State<MapUi> {
   }
 
   _extractMapInfo() async  {
-    _position = mapController.cameraPosition;
-    var tupple = await wrapper.getPOI(_position.target.latitude, _position.target.longitude);
-    if(tupple.length !=0){
-      List<POIModel> ls =tupple[0];
-      for(int i =0; i <ls.length;i++) {
-        var latlang = Geohash.decode(ls[i].geoHash.toString());
-        var key = latlang.x.toString()+latlang.y.toString();
-        if (mapping[key]==null){
-          dots.add(ls[i]);
-          mapping[key]= ls[i];
-          mapController.addSymbol(SymbolOptions(
-              geometry: LatLng(
-                Geohash
-                    .decode(ls[i].geoHash)
-                    .x,
-                Geohash
-                    .decode(ls[i].geoHash)
-                    .y,
-              ),
-              iconImage: "assets/blumark.png",
-              iconSize: 0.1,
-              iconColor: "#00F0F8FF"
-          ));
+    if (wrapper != null && mapping != null){
+      _position = mapController.cameraPosition;
+      var tupple = await wrapper.getPOI(_position.target.latitude, _position.target.longitude);
+      if(tupple.length !=0){
+        List<POIModel> ls =tupple[0];
+        for(int i =0; i <ls.length;i++) {
+          var latlang = Geohash.decode(ls[i].geoHash.toString());
+          var key = latlang.x.toString()+latlang.y.toString();
+          if (mapping[key]==null){
+            dots.add(ls[i]);
+            mapping[key]= ls[i];
+            mapController.addSymbol(SymbolOptions(
+                geometry: LatLng(
+                  Geohash
+                      .decode(ls[i].geoHash)
+                      .x,
+                  Geohash
+                      .decode(ls[i].geoHash)
+                      .y,
+                ),
+                iconImage: "assets/blumark.png",
+                iconSize: 0.1,
+                iconColor: "#00F0F8FF"
+            ));
+          }
         }
       }
     }
+
    // print(_position.toString());
   }
 
@@ -155,6 +164,11 @@ class MapState extends State<MapUi> {
       trackCameraPosition: true,
       initialCameraPosition: widget.kInitialPosition,
       compassEnabled: true,
+      gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+        Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+        ),
+      ].toSet(),
       onMapCreated: _onMapCreated,
     );
   }
