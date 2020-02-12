@@ -22,10 +22,10 @@ class NewPoiState extends State<NewPoi>{
   Map json={"result":{"status":"0"}};
   bool err =false;
   final List<String> _cast = <String>[
-    "Health",
-    "Blockcahin",
+    "Art",
+    "Blockchain",
     "Food",
-    "Sight Seeing",
+    "Work",
     "Education",
     "Retail"
   ];

@@ -56,9 +56,17 @@ class HomeState extends State<Home>{
               child: CupertinoButton.filled(
 
                 child: Text("Add POI"),
-                onPressed:()  {
-                  var encoded =  Geohash.encode(map.mapController.cameraPosition.target.latitude,map.mapController.cameraPosition.target.longitude);
-                  Navigator.pushNamed(context, '/AddPoi',arguments: encoded);
+                onPressed:() async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  var pvt = prefs.getString("privateKey");
+                  if(pvt!=null){
+                    var encoded =  Geohash.encode(map.mapController.cameraPosition.target.latitude,map.mapController.cameraPosition.target.longitude);
+                    Navigator.pushNamed(context, '/AddPoi',arguments: encoded);
+                  }
+                  else{
+                    Navigator.pushNamed(context, '/LoginWithoutSkip');
+                  }
+
                 },
               ),
             )
