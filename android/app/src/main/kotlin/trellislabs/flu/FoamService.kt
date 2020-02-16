@@ -17,6 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import org.json.JSONObject
 
 class FoamService : IntentService("WithdrawSerivice"){
     @TargetApi(26)
@@ -35,7 +36,7 @@ class FoamService : IntentService("WithdrawSerivice"){
                 .setTicker("FOAM")
                 .build()
 
-        startForeground(1, notification)
+        startForeground(6969, notification)
     }
     override fun onHandleIntent(intent: Intent?) {
         var latitude:Double? = null
@@ -44,8 +45,9 @@ class FoamService : IntentService("WithdrawSerivice"){
         var nelat:Double? = null
         var swlong:Double? = null
         var swlat:Double? = null
+        var id =0
         val queue = Volley.newRequestQueue(this)
-
+        val hashMap:HashMap<String ,Boolean> = HashMap<String ,Boolean>()
         try {
             val resultIntent = Intent(this, MainActivity::class.java)
             val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
@@ -54,13 +56,13 @@ class FoamService : IntentService("WithdrawSerivice"){
                 // Get the PendingIntent containing the entire back stack
                 getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
             }
-            var fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-           while(true){
 
+           while(true){
+               val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
                fusedLocationClient.lastLocation
                        .addOnSuccessListener { location : Location? ->
-                           var _longitude:Double =location!!.longitude
-                           var _latitude:Double = location.latitude
+                           val _longitude:Double =location!!.longitude
+                           val _latitude:Double = location.latitude
                            if(latitude ==null && longitude == null){
                                latitude = _latitude
                                longitude = _longitude
@@ -68,12 +70,18 @@ class FoamService : IntentService("WithdrawSerivice"){
                                nelat =latitude!!+1
                                swlong  = longitude!!-1
                                swlat = latitude!!-1
-                               var  url = "https://rink-cd-api.foam.space/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
+                               val  url = "https://rink-cd-api.foam.space/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
                                val jsonArray = JsonArrayRequest(Request.Method.GET, url, null,
                                        Response.Listener { response ->
+                                           var i = 0
+                                           while(i<response.length()){
+                                               hashMap[response.getJSONObject(i)["geohash"].toString()] = true
+                                                i++
+                                           }
                                            Log.e("POI response", response.toString())
                                            if(response.length()>1){
-                                               var builder = NotificationCompat.Builder(this, "FOAM")
+
+                                               val builder = NotificationCompat.Builder(this, "FOAM")
                                                        .setSmallIcon(R.drawable.ic_near_me_black_24dp)
                                                        .setContentTitle("POI Nearby")
                                                        .setContentText("There are ${response.length()} places near you")
@@ -81,9 +89,10 @@ class FoamService : IntentService("WithdrawSerivice"){
                                                        .setContentIntent(resultPendingIntent)
                                                with(NotificationManagerCompat.from(this)) {
                                                    // notificationId is a unique int for each notification that you must define
-                                                   notify(1, builder.build())
+                                                   notify(id, builder.build())
+                                                   id++
                                                }
-
+                                                Log.e("up2", response.toString())
                                            }
                                            else if(response.length() ==1){
                                                var builder = NotificationCompat.Builder(this, "FOAM")
@@ -94,8 +103,10 @@ class FoamService : IntentService("WithdrawSerivice"){
                                                        .setContentIntent(resultPendingIntent)
                                                with(NotificationManagerCompat.from(this)) {
                                                    // notificationId is a unique int for each notification that you must define
-                                                   notify(1, builder.build())
+                                                   notify(id, builder.build())
+                                                   id++
                                                }
+                                               Log.e("up1", response.toString())
                                            }
 
 
@@ -103,12 +114,10 @@ class FoamService : IntentService("WithdrawSerivice"){
                                        Response.ErrorListener { error ->
                                            // TODO: Handle error
                                        })
-                               queue.add((jsonArray))
+                               queue.add(jsonArray)
 
                            }
-                           else if(latitude!! - _latitude >1||latitude!! - _latitude < -1||longitude!!-_longitude >1||longitude!! - _longitude < -1){
-                               latitude = _latitude
-                               longitude = _longitude
+                           else{
                                latitude = _latitude
                                longitude = _longitude
                                nelong = longitude!!+1
@@ -118,48 +127,67 @@ class FoamService : IntentService("WithdrawSerivice"){
                                var  url = "https://rink-cd-api.foam.space/poi/map?swLng="+swlong.toString()+"&swLat="+swlat.toString()+"&neLng="+nelong.toString()+"&neLat="+nelat.toString();
                                val jsonArray = JsonArrayRequest(Request.Method.GET, url, null,
                                        Response.Listener { response ->
-                                           if(response.length()>1){
-                                               var builder = NotificationCompat.Builder(this, "FOAM")
-                                                       .setSmallIcon(R.drawable.ic_near_me_black_24dp)
-                                                       .setContentTitle("POI Nearby")
-                                                       .setContentText("There are ${response.length()} places near you")
-                                                       .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                           if(response.length()==1){
+                                               if(hashMap[response.getJSONObject(0)["geohash"]]!=true||hashMap[response.getJSONObject(0)["geohash"]]==null){
+                                                   val builder = NotificationCompat.Builder(this, "FOAM")
+                                                           .setSmallIcon(R.drawable.ic_near_me_black_24dp)
+                                                           .setContentTitle("POI Nearby")
+                                                           .setContentText("There are ${response.length()} places near you")
+                                                           .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-                                               with(NotificationManagerCompat.from(this)) {
-                                                   // notificationId is a unique int for each notification that you must define
-                                                   notify(1, builder.build())
+                                                   with(NotificationManagerCompat.from(this)) {
+                                                       // notificationId is a unique int for each notification that you must define
+                                                       notify(id, builder.build())
+                                                       id++
+                                                   }
+                                               }
+
+                                                Log.e("down1", response.toString())
+                                           }
+                                           else if(response.length()>1){
+                                               var count = 0
+                                               var i = 0
+                                               while(i<response.length()){
+                                                   Log.e("resp length", response.length().toString())
+                                                   Log.e("state",hashMap[response.getJSONObject(i)["geohash"]].toString() )
+                                                    if(hashMap[response.getJSONObject(i)["geohash"]]!=true||hashMap[response.getJSONObject(i)["geohash"]]==null){
+                                                        count++
+                                                        hashMap[response.getJSONObject(i)["geohash"].toString()]= true
+                                                    }
+                                                   i++
+                                               }
+                                               if (count>0){
+                                                   Log.e("inside count",count.toString())
+                                                   val builder = NotificationCompat.Builder(this, "FOAM")
+                                                           .setSmallIcon(R.drawable.ic_near_me_black_24dp)
+                                                           .setContentTitle("POI Nearby")
+                                                           .setContentText("You are near $count new POI")
+                                                           .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                                                   with(NotificationManagerCompat.from(this)) {
+                                                       // notificationId is a unique int for each notification that you must define
+                                                       notify(id, builder.build())
+                                                       id ++
+                                                   }
                                                }
 
                                            }
-                                           else if(response.length() ==1){
-                                               var builder = NotificationCompat.Builder(this, "POI")
-                                                       .setSmallIcon(R.drawable.ic_near_me_black_24dp)
-                                                       .setContentTitle("POI Nearby")
-                                                       .setContentText("You are near ${response.getJSONObject(0)["name"]}")
-                                                       .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                                               with(NotificationManagerCompat.from(this)) {
-                                                   // notificationId is a unique int for each notification that you must define
-                                                   notify(22, builder.build())
-                                               }
-                                           }
-
+                                            Log.e("down2", response.toString())
 
                                        },
                                        Response.ErrorListener { error ->
-                                           // TODO: Handle error
+                                           Log.e("error", error.message)
+
                                        })
-                               queue.add((jsonArray))
+                               queue.add(jsonArray)
 
                            }
-                           else{
 
-                           }
                        }
-               Thread.sleep(300000)
+               Thread.sleep(60000)
            }
 
         } catch (e: InterruptedException) {
-            // Restore interrupt status.
+            Log.e("intr error", e.message)
             Thread.currentThread().interrupt()
         }
 
