@@ -32,6 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <service android:name=".FoamService"/>
+       <!-- <service android:name=".FoamService"/> -->
     </application>
 </manifest>
