@@ -8,29 +8,27 @@ import 'Screens/ChallengeScreen.dart';
 import 'Screens/LoginWithSkip.dart';
 import 'Screens/LoginWithoutSkip.dart';
 import 'Screens/NewPoi.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   Widget currentWidget = LoginWithSkip();
-  Future<dynamic>_checkLogin()async {
-    SharedPreferences prefs =  await SharedPreferences.getInstance();
-       return prefs.getBool("loggedIn");
-
-
+  Future<dynamic> _checkLogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("loggedIn");
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _checkLogin().then((value){
-      if (value == null|| value ==false) {
+    _checkLogin().then((value) {
+      if (value == null || value == false) {
         print(value.toString());
         setState(() {
           currentWidget = LoginWithSkip();
@@ -42,11 +40,17 @@ class _MyAppState extends State<MyApp> {
         });
       }
     });
-
   }
+
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.light,
+        //primarySwatch: Colors.white,
+      ),
+      debugShowCheckedModeBanner: false,
+      //theme: ThemeData(primarySwatch: Colors.white),
       localizationsDelegates: [
         DefaultMaterialLocalizations.delegate,
         DefaultCupertinoLocalizations.delegate,
@@ -58,15 +62,12 @@ class _MyAppState extends State<MyApp> {
         '/ChallengeScreen': (context) => ChallengeScreen(),
         '/LoginWithSkip': (context) => LoginWithSkip(),
         '/LoginWithoutSkip': (context) => LoginWithoutSkip(),
-        '/home' : (context ) => Home(),
+        '/home': (context) => Home(),
         '/AddPoi': (context) => NewPoi(),
       },
       title: 'FOAM MAP',
-      theme: CupertinoThemeData(
-        brightness:  Brightness.dark,
-      ),
+
       home: currentWidget,
     );
   }
 }
-
