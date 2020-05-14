@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flu/Widgets/BalanceCard.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Widgets/TransactionWidget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../Constants.dart';
 
@@ -88,8 +89,10 @@ class DashboardState extends State<Dashboard> {
               top: 100,
               left: 20,
               right: 20,
-              child: Column(
+              child: loading?SpinKitFadingCircle(size:50, color:Colors.blue): ListView(
+                shrinkWrap: true,
                 children: <Widget>[
+
                   BalanceCard(reg: BigInt.from(regBal), voting: BigInt.from(voteBal), total: BigInt.from(totalBal),),
                   SizedBox(
                     height: 30,

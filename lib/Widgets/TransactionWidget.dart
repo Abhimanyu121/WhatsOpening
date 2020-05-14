@@ -108,7 +108,7 @@ class _TransactionViewState extends State<TransactionView>
                                     : !transacting
                                         ? Icon(
                                             Icons.check,
-                                            color: Colors.white70,
+                                            color: Colors.black,
                                           )
                                         : SpinKitWave(
                                             size: 30,
