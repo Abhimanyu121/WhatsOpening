@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../ThemeData.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:toast/toast.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 
@@ -35,23 +35,20 @@ class _TransactionViewState extends State<TransactionView>
       builder: (BuildContext context, Widget child) {
         return Padding(
           padding:
-              const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
+              const EdgeInsets.only(left: 24, right: 24, top: 0, bottom: 18),
           child: Container(
+            height: 220,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [AppTheme.nearlyDarkBlue, HexColor("#6F56E8")],
+                  colors: [AppTheme.nearlyBlack, HexColor("#000000")],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
-                  bottomRight: Radius.circular(8.0),
-                  topRight: Radius.circular(68.0)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: AppTheme.grey.withOpacity(0.6),
                     offset: Offset(1.1, 1.1),
-                    blurRadius: 10.0),
+                    blurRadius: 7.0),
               ],
             ),
             child: Padding(
@@ -66,9 +63,9 @@ class _TransactionViewState extends State<TransactionView>
                     style: TextStyle(
                       fontFamily: AppTheme.fontName,
                       fontWeight: FontWeight.normal,
-                      fontSize: 14,
+                      fontSize: 18,
                       letterSpacing: 0.0,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                   ),
                   Padding(
@@ -76,7 +73,7 @@ class _TransactionViewState extends State<TransactionView>
                     child: noTransactions
                         ? Text(
                             "No Transactions yet!",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                           )
                         : FlatButton(
                             onPressed: () {},
@@ -86,7 +83,7 @@ class _TransactionViewState extends State<TransactionView>
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.normal,
-                                fontSize: 20,
+                                fontSize: 16,
                                 letterSpacing: 0.0,
                                 color: Colors.black,
                               ),
@@ -158,7 +155,7 @@ class _TransactionViewState extends State<TransactionView>
                               padding: const EdgeInsets.all(0.0),
                               child: Icon(
                                 Icons.refresh,
-                                color: HexColor("#6F56E8"),
+                                color: Colors.black,
                                 size: 44,
                               ),
                             ),

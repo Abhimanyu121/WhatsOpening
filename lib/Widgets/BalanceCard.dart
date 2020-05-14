@@ -5,7 +5,7 @@ import '../ThemeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
-class BalanceCard extends StatefulWidget{
+class BalanceCard extends StatefulWidget {
   BigInt reg;
   BigInt voting;
   BigInt total;
@@ -16,29 +16,26 @@ class BalanceCard extends StatefulWidget{
 }
 
 class _BalanceCardState extends State<BalanceCard> {
-  bool transacting =false;
-  bool noTransactions= true;
+  bool transacting = false;
+  bool noTransactions = true;
   bool loading = true;
   String hash;
-  Map json={"result":{"status":"0"}};
-  bool err =false;
+  Map json = {
+    "result": {"status": "0"}
+  };
+  bool err = false;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.only(
-          left: 24, right: 24, top: 16, bottom: 18),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            AppTheme.nearlyDarkBlue,
-            HexColor("#6F56E8")
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              bottomLeft: Radius.circular(8.0),
-              bottomRight: Radius.circular(8.0),
-              topRight: Radius.circular(68.0)),
+          gradient: LinearGradient(
+              colors: [AppTheme.nearlyWhite, HexColor("#FFFFFF")],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: <BoxShadow>[
             BoxShadow(
                 color: AppTheme.grey.withOpacity(0.6),
@@ -52,11 +49,19 @@ class _BalanceCardState extends State<BalanceCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text("Your Tokens : \n\t\t"+widget.total.toString(), style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text(
+                "Your Tokens : \n\t\t" + widget.total.toString(),
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              ),
               SizedBox(
                 height: 10,
               ),
-              Text("Your Approved Tokens :", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text(
+                "Your Approved Tokens :",
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -65,15 +70,36 @@ class _BalanceCardState extends State<BalanceCard> {
                 children: <Widget>[
                   Column(
                     children: <Widget>[
-                      Text("Registry",style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
-                      widget.reg==BigInt.from(0)?Text("0"): Text(widget.reg.toString(),style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),)
+                      Text(
+                        "Registry",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      widget.reg == BigInt.from(0)
+                          ? Text("0")
+                          : Text(
+                              widget.reg.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            )
                     ],
                   ),
-
                   Column(
                     children: <Widget>[
-                      Text("Voting",style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
-                      widget.voting==BigInt.from(0)?Text("0"): Text(widget.voting.toString(),style: TextStyle(fontWeight:  FontWeight.bold, color: Colors.black),),
+                      Text(
+                        "Voting",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      widget.voting == BigInt.from(0)
+                          ? Text("0")
+                          : Text(
+                              widget.voting.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
                     ],
                   )
                 ],
@@ -82,18 +108,24 @@ class _BalanceCardState extends State<BalanceCard> {
                 height: 10,
               ),
               Center(
-                child: CupertinoButton.filled(
-                  child: Text("Change Allowances"),
+                child: MaterialButton(
+                  shape: Border.all(width: 1.0, color: Colors.blueGrey),
+                  color: Colors.black,
+                  child: Text(
+                    "Change Allowances",
+                    style: TextStyle(
+                      fontSize: 13.0,
+                      color: Colors.white,
+                    ),
+                  ),
                   onPressed: () async {
-                    await _transactionStatus().then((val){
-
-                      if(transacting){
-
-                        Toast.show("Another Transaction is in progress",context, duration: Toast.LENGTH_LONG);
-                      }
-                      else{
+                    await _transactionStatus().then((val) {
+                      if (transacting) {
+                        Toast.show(
+                            "Another Transaction is in progress", context,
+                            duration: Toast.LENGTH_LONG);
+                      } else {
                         Navigator.pushNamed(context, '/allowance');
-
                       }
                     });
                   },
@@ -105,47 +137,48 @@ class _BalanceCardState extends State<BalanceCard> {
       ),
     );
   }
-  _transactionStatus()async {
-    await SharedPreferences.getInstance().then((prefs)async {
+
+  _transactionStatus() async {
+    await SharedPreferences.getInstance().then((prefs) async {
       var jos;
       bool transaction = prefs.getBool("transacting");
-      String hash= prefs.getString("hash");
+      String hash = prefs.getString("hash");
       //hash = "0x27fc3579c8fc51d1d9d673ee36efea8d0f5b2237579fd4a5d757326f5805c1fc ";
-      if(transaction ==true){
+      if (transaction == true) {
         setState(() {
-          transacting =true;
+          transacting = true;
         });
-      }else{
+      } else {
         setState(() {
-          transacting= false;
-        });}
-      if(hash ==""||hash==null){
+          transacting = false;
+        });
+      }
+      if (hash == "" || hash == null) {
         setState(() {
           noTransactions = true;
         });
-        Map mv ={"status":"0"};
+        Map mv = {"status": "0"};
         setState(() {
-          loading =false;
+          loading = false;
         });
         return mv;
-      }else{
+      } else {
         setState(() {
           this.hash = hash;
-          noTransactions =false;
+          noTransactions = false;
         });
 
         print("here");
         ScannerWrapper wrapper = new ScannerWrapper();
-        await  wrapper.getDetails(hash).then((jss) async {
-
-          print("checking:"+jss.toString());
+        await wrapper.getDetails(hash).then((jss) async {
+          print("checking:" + jss.toString());
           setState(() {
-            json =jss;
+            json = jss;
           });
-          jos =jss;
+          jos = jss;
           await _check();
           setState(() {
-            loading =false;
+            loading = false;
           });
           return jss;
         });
@@ -153,25 +186,25 @@ class _BalanceCardState extends State<BalanceCard> {
       return jos;
     });
   }
-  _check()async{
-    if(json["result"]["status"]=="1"||json["message"]=="NOTOK"){
-      await SharedPreferences.getInstance().then((prefs){
+
+  _check() async {
+    if (json["result"]["status"] == "1" || json["message"] == "NOTOK") {
+      await SharedPreferences.getInstance().then((prefs) {
         setState(() {
-          transacting=false;
+          transacting = false;
           print("transaction mereged");
-          print("check2:"+transacting.toString());
+          print("check2:" + transacting.toString());
         });
         prefs.setBool("transacting", false);
       });
-
     }
-    if(json["message"]=="NOTOK"||json["result"]["status"]=="0"){
+    if (json["message"] == "NOTOK" || json["result"]["status"] == "0") {
       setState(() {
         print("transaction mereged");
-        transacting =false;
-        err= true;
+        transacting = false;
+        err = true;
       });
-      print("err: check"+err.toString());
+      print("err: check" + err.toString());
     }
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/home.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Constants.dart';
 import 'Screens/Dashboard.dart';
 import 'Screens/Allowance.dart';
 import 'Screens/ChallengeScreen.dart';
@@ -44,6 +46,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        systemNavigationBarColor: notWhite, // navigation bar color
+        statusBarColor: notWhite,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarDividerColor: background,
+        systemNavigationBarIconBrightness: Brightness.dark // status bar color
+        ));
     return MaterialApp(
       theme: ThemeData(
         brightness: Brightness.light,

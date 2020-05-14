@@ -12,10 +12,10 @@ class AllowanceState extends State<AllowancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        // Icon(Icons.gps_fixed, size: 20,),
+        iconTheme: IconThemeData(color: Colors.black),
         title: Padding(
           padding: EdgeInsets.only(left: 110),
           child: Row(
@@ -40,7 +40,7 @@ class AllowanceState extends State<AllowancePage> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
-                      fontSize: 24.0,
+                      fontSize: 26.0,
                     ),
                   )
                 ],
@@ -51,7 +51,7 @@ class AllowanceState extends State<AllowancePage> {
         backgroundColor: Colors.white,
       ),
       body: Container(
-        color: Colors.black,
+        color: Colors.white,
         child: Padding(
           padding: EdgeInsets.all(0.0),
           child: Align(
