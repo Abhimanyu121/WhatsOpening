@@ -55,6 +55,7 @@ class _MyAppState extends State<MyApp> {
         ));
     return MaterialApp(
       theme: ThemeData(
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         brightness: Brightness.light,
         //primarySwatch: Colors.white,
       ),

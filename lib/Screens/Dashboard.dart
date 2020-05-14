@@ -90,7 +90,7 @@ class DashboardState extends State<Dashboard> {
               right: 20,
               child: Column(
                 children: <Widget>[
-                  BalanceCard(),
+                  BalanceCard(reg: BigInt.from(regBal), voting: BigInt.from(voteBal), total: BigInt.from(totalBal),),
                   SizedBox(
                     height: 30,
                   ),
