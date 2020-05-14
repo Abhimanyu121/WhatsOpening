@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flu/Widgets/AllowanceRegistry.dart';
 import 'package:flu/Widgets/VoteAllowance.dart';
 
@@ -14,39 +13,38 @@ class AllowanceState extends State<AllowancePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        brightness: Brightness.light,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Padding(
-          padding: EdgeInsets.only(left: 110),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "Change",
-                style: TextStyle(
-                  fontSize: 28.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "Change",
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-              Row(children: <Widget>[
+            ),
+            Row(children: <Widget>[
+              Text(
+                "  ",
+              ),
+            ]),
+            Row(
+              children: <Widget>[
                 Text(
-                  "  ",
-                ),
-              ]),
-              Row(
-                children: <Widget>[
-                  Text(
-                    "Allowance",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontSize: 26.0,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
+                  "Allowance",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    fontSize: 26.0,
+                  ),
+                )
+              ],
+            )
+          ],
         ),
         backgroundColor: Colors.white,
       ),

@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Widgets/BalanceCard.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
-//import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flu/Widgets/TransactionWidget.dart';
 
 import '../Constants.dart';
@@ -61,6 +59,7 @@ class DashboardState extends State<Dashboard> {
         ),
       ),
       appBar: AppBar(
+        brightness: Brightness.light,
         backgroundColor: Colors.black,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white70),

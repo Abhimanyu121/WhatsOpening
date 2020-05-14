@@ -1,5 +1,4 @@
 import 'package:flu/Models/ArgListPanelChallege.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Models/POIModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,7 +119,7 @@ class PanelState extends State<PanelUi>{
             height: 10,
           ),
           Center(
-            child: widget.model.state=="applied"?CupertinoButton.filled(child: Text("Challenge the Place"), onPressed: ()async {
+            child: widget.model.state=="applied"?OutlineButton(child: Text("Challenge the Place"), onPressed: ()async {
               ArgListPanelChallenge args= new ArgListPanelChallenge();
               args.model= widget.model;
               args.key = widget._MapState;
@@ -135,7 +134,7 @@ class PanelState extends State<PanelUi>{
                 );
               }
               else{
-                Navigator.pushNamed(context, '/LoginWithouSkip');
+                Navigator.pushNamed(context, '/LoginWithoutSkip');
               }
 
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/home.dart';
 import 'package:flutter/services.dart';
@@ -59,13 +58,10 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.light,
         //primarySwatch: Colors.white,
       ),
+
       debugShowCheckedModeBanner: false,
       //theme: ThemeData(primarySwatch: Colors.white),
-      localizationsDelegates: [
-        DefaultMaterialLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
+
       routes: {
         '/dashboard': (context) => Dashboard(),
         '/allowance': (context) => AllowancePage(),
