@@ -155,7 +155,7 @@ class _TransactionViewState extends State<TransactionView>
                               padding: const EdgeInsets.all(0.0),
                               child: Icon(
                                 Icons.refresh,
-                                color: Colors.white70,
+                                color: Colors.black,
                                 size: 44,
                               ),
                             ),
