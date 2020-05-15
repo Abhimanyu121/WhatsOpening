@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flu/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:geohash/geohash.dart';
 import 'package:geolocator/geolocator.dart';
@@ -45,6 +46,7 @@ class HomeState extends State<Home>{
     Widget addPOI = new Padding(
         padding: EdgeInsets.all(10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -53,8 +55,12 @@ class HomeState extends State<Home>{
             SizedBox(
               width: MediaQuery.of(context).size.width*0.4,
               child: OutlineButton(
-
-                child: Text("Add POI"),
+                highlightedBorderColor: Colors.blue,
+                borderSide: BorderSide(
+                  color: Colors.blue
+                ),
+                color: Colors.blue,
+                child: Text("Add POI", style: TextStyle(color:Colors.black),),
                 onPressed:() async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   var pvt = prefs.getString("privateKey");
@@ -79,13 +85,14 @@ class HomeState extends State<Home>{
     double _fabHeight = 120.0;
     double _panelHeightClosed = 95.0;
     return Scaffold(
+      backgroundColor: Colors.white70,
       appBar: AppBar(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(5),bottomRight: Radius.circular(5))),
         brightness: Brightness.light,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Text(
               "FOAM",
@@ -103,7 +110,7 @@ class HomeState extends State<Home>{
             Row(
               children: <Widget>[
                 Text(
-                  "Maps",
+                  "MAPS",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
@@ -114,7 +121,34 @@ class HomeState extends State<Home>{
             )
           ],
         ),
-        backgroundColor: Colors.white,
+        actions: <Widget>[FlatButton(
+          onPressed: ()async{
+
+          },
+          child: Row(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Icon(
+                  Icons.power_settings_new,
+                  color: Colors.black87,
+                  size: 18,
+                ),
+              ),
+              Text(
+                "Logout",
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  letterSpacing: -0.2,
+                  color: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+        ),],
+        backgroundColor: nearlyWhite,
       ),
       body: Stack(
         children: [
@@ -210,7 +244,7 @@ class HomeState extends State<Home>{
                 ),
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: nearlyWhite,
                 borderRadius: BorderRadius.circular(24.0),
                 boxShadow: [BoxShadow(
                     color: Color.fromRGBO(0, 0, 0, .25),
@@ -242,7 +276,7 @@ class HomeState extends State<Home>{
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(24.0),
                   ),
-                  color: Colors.white,
+                  color: nearlyWhite,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Align(

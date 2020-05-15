@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:toast/toast.dart';
 
+import '../HexColor.dart';
+
 class RegistryAllow extends StatefulWidget {
   @override
   RegistryState createState() => RegistryState();
@@ -55,17 +57,18 @@ class RegistryState extends State<RegistryAllow> {
                 obscureText: false,
                 style: style,
                 decoration: InputDecoration(
-                    fillColor: Colors.black87,
+                    fillColor: HexColor("#003366"),
                     filled: true,
-                    hoverColor: Colors.blue,
-                    focusColor: Colors.blue,
+                    hoverColor: Colors.black,
+                    focusColor: Colors.black,
                     hintStyle: hintStyle,
                     contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 10),
                     hintText: "FOAM tokens to approve",
                     border: OutlineInputBorder(
+
                         borderRadius: BorderRadius.circular(5.0),
                         borderSide: new BorderSide(
-                          color: Colors.blue,
+                          color: Colors.black,
                         ))),
               ),
             ),

@@ -29,6 +29,8 @@ class _BalanceCardState extends State<BalanceCard> {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
+        width: MediaQuery.of(context).size.width*0.9,
+
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [AppTheme.nearlyWhite, HexColor("#FFFFFF")],

@@ -37,6 +37,7 @@ class _TransactionViewState extends State<TransactionView>
           padding:
               const EdgeInsets.only(left: 24, right: 24, top: 0, bottom: 18),
           child: Container(
+            width: MediaQuery.of(context).size.width*0.9,
             height: 220,
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -44,12 +45,7 @@ class _TransactionViewState extends State<TransactionView>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight),
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: AppTheme.grey.withOpacity(0.6),
-                    offset: Offset(1.1, 1.1),
-                    blurRadius: 7.0),
-              ],
+
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),

@@ -16,6 +16,8 @@ class PoiWidget extends StatefulWidget{
   PoiWidgetState createState() => new PoiWidgetState();
 }
 class PoiWidgetState extends State<PoiWidget>{
+  TextStyle hintStyle = TextStyle(
+      fontFamily: 'Montserrat', fontSize: 15.0, color: Colors.white70);
   bool _loading = true;
   bool bal;
   TextEditingController amount = TextEditingController();
@@ -26,7 +28,7 @@ class PoiWidgetState extends State<PoiWidget>{
   String hash;
   Map json={"result":{"status":"0"}};
   bool err =false;
-  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 15.0);
+  TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 15.0, color: Colors.white70);
   _fetchBal()async {
     EthWrapper wrapper= new EthWrapper();
     double bal = await  wrapper.regAllow();
@@ -47,42 +49,26 @@ class PoiWidgetState extends State<PoiWidget>{
     child: Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
-        child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.black, Colors.black87],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight),
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-          //color: Colors.white,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-                AppTheme.nearlyDarkBlue,
-                HexColor("#6F56E8")
-              ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
-                  bottomRight: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0)),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: AppTheme.grey.withOpacity(0.6),
-                    offset: Offset(1.1, 1.1),
-                    blurRadius: 10.0),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text("Not Enough Approved Tokens", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),),
+                SizedBox(
+                  height: 10,
+                ),
+                Text("To be able to Challenge POI, you need to stake minimum 100FOAM tokens. You can Approve tokens in dashboard, and then try again.",style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white70),),
               ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text("Not Enough Approved Tokens", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text("To be able to Challenge POI, you need to stake minimum 100FOAM tokens. You can Approve tokens in dashboard, and then try again.",style: TextStyle(fontWeight: FontWeight.normal, color: Colors.black),),
-                ],
-              ),
             ),
           ),
         ),
@@ -97,21 +83,11 @@ class PoiWidgetState extends State<PoiWidget>{
           left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            AppTheme.nearlyDarkBlue,
-            HexColor("#6F56E8")
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              bottomLeft: Radius.circular(8.0),
-              bottomRight: Radius.circular(8.0),
-              topRight: Radius.circular(68.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.6),
-                offset: Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
+          gradient: LinearGradient(
+              colors: [Colors.black, Colors.black87],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight),
+          borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -119,15 +95,15 @@ class PoiWidgetState extends State<PoiWidget>{
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text("Name : \n\t\t"+widget.model.name, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text("Name : \n\t\t"+widget.model.name, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),),
               SizedBox(
                 height: 10,
               ),
-              Text("GeoHash :\n\t\t"+widget.model.geoHash, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text("GeoHash :\n\t\t"+widget.model.geoHash, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),),
               SizedBox(
                 height: 10,
               ),
-              Text("Owner :\n\t\t"+widget.model.owner, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),),
+              Text("Owner :\n\t\t"+widget.model.owner, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white70),),
               SizedBox(
                 height: 10,
               ),
@@ -144,11 +120,22 @@ class PoiWidgetState extends State<PoiWidget>{
                     null),
                     obscureText: false,
                     style: style,
+
                     decoration: InputDecoration(
+                        fillColor: HexColor("#003366"),
+                        filled: true,
+                        hintStyle: hintStyle,
                         contentPadding: EdgeInsets.fromLTRB(15,10,15,10),
                         hintText: "Tokens to put on stake",
-                        border:
-                        OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                        labelText: 'Tokens to put on stake',
+                        labelStyle: new TextStyle(color: Colors.white70),
+                        border: OutlineInputBorder(
+
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: new BorderSide(
+                              color: Colors.black,
+                            ))
+                    ),
                   ),
                 ),
               ),
@@ -156,15 +143,27 @@ class PoiWidgetState extends State<PoiWidget>{
                 padding: const EdgeInsets.all(8.0),
                 child: Card(
                   child: TextFormField(
+
                     keyboardType: TextInputType.text,
                     controller: reason,
                     obscureText: false,
                     style: style,
+
                     decoration: InputDecoration(
+                      hintStyle: hintStyle,
+                        fillColor: HexColor("#003366"),
+                        labelText: 'Reason for challenge',
+                        labelStyle: new TextStyle(color: Colors.white70),
+                        filled: true,
                         contentPadding: EdgeInsets.fromLTRB(15,10,15,10),
                         hintText: "Reason for challenge",
-                        border:
-                        OutlineInputBorder(borderRadius: BorderRadius.circular(5.0))),
+                        border: OutlineInputBorder(
+
+                            borderRadius: BorderRadius.circular(5.0),
+                            borderSide: new BorderSide(
+                              color: Colors.black,
+                            ))
+                    ),
                   ),
                 ),
               ),
@@ -173,7 +172,10 @@ class PoiWidgetState extends State<PoiWidget>{
               ),
               Center(
                 child: OutlineButton(
-                  child: Text("Challenge"),
+                  borderSide: BorderSide(
+                    color: Colors.white70
+                  ),
+                  child: Text("Challenge", style: style,),
                   onPressed: () async {
                     FocusScope.of(context).requestFocus(FocusNode());
                     Toast.show("Please wait..", context);

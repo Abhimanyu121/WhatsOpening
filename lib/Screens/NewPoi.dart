@@ -1,6 +1,8 @@
+import 'package:flu/Constants.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 import 'package:flu/Wrappers/MapBoxApiWrapper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,8 +35,10 @@ class NewPoiState extends State<NewPoi>{
       yield Padding(
         padding: const EdgeInsets.all(4.0),
         child: FilterChip(
+          backgroundColor: Colors.black,
+          selectedColor: Colors.black87,
           avatar: CircleAvatar(child: Text(tg.substring(0,1)),),
-          label: Text(tg),
+          label: Text(tg,style: TextStyle(color: Colors.white70),),
           selected: _filters.contains(tg),
           onSelected: (bool value) {
             setState(() {
@@ -123,6 +127,8 @@ class NewPoiState extends State<NewPoi>{
   }
   @override
   Widget build(BuildContext context) {
+    TextStyle style = TextStyle(
+        fontFamily: 'Montserrat', fontSize: 15.0, color: Colors.white);
     final String  geohash = ModalRoute.of(context).settings.arguments;
     // TODO: implement build
     return Scaffold(
@@ -134,7 +140,7 @@ class NewPoiState extends State<NewPoi>{
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Text(
-              "Change",
+              "NEW",
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
@@ -149,7 +155,7 @@ class NewPoiState extends State<NewPoi>{
             Row(
               children: <Widget>[
                 Text(
-                  "Allowance",
+                  "POI",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,
@@ -160,9 +166,9 @@ class NewPoiState extends State<NewPoi>{
             )
           ],
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: nearlyWhite,
       ),
-      backgroundColor: Colors.black54,
+      backgroundColor: nearlyWhite,
       body: Center(
         child: _loading?SpinKitFadingCircle(size:50, color:Colors.blue):!bal?lessBal:ListView(
 
@@ -173,126 +179,161 @@ class NewPoiState extends State<NewPoi>{
               child: Container(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    elevation: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        HexColor("#00264d"),
+                        HexColor("#003366"),
+                      ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                    ),
                     child: ListView(
                       children: <Widget>[
                         Container(
 
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text("Add New POI", style:TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20
-                                )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  autovalidate: false,
-                                  validator: (val) =>val.length==0
-                                      ? 'Invalid Name'
-                                      : null,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    hintText: 'Name',
-                                    labelText: 'Name',
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
-                                  ),
-                                  controller: name,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal:8.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  child: Text("Add New POI", style:TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white70,
+                                  )),
                                 ),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    autovalidate: false,
+                                    validator: (val) =>val.length==0
+                                        ? 'Invalid Name'
+                                        : null,
+                                    style: style,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.black,
+                                      hintText: 'Name',
+                                      labelText: 'Name',
+                                      labelStyle: new TextStyle(color: Colors.white70),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                                    ),
+                                    controller: name,
 
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  autovalidate: false,
-                                  validator: (val) =>val.length==0||val ==null
-                                      ? 'Invalid Address'
-                                      : null,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    hintText: 'Address',
-                                    labelText: 'Address',
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
                                   ),
-                                  controller: address,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  autovalidate: false,
-                                  validator: (val) =>val!=null||val.length<64
-                                      ? 'Invalid Description'
-                                      : null,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    hintText: 'Description',
-                                    labelText: 'Description',
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    autovalidate: false,
+                                    validator: (val) =>val.length==0||val ==null
+                                        ? 'Invalid Address'
+                                        : null,
+                                    style: style,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.black,
+                                      hintText: 'Address',
+                                      labelText: 'Address',
+                                      labelStyle: new TextStyle(color: Colors.white70),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                                    ),
+                                    controller: address,
                                   ),
-                                  controller: description,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.number,
-                                  autovalidate: false,
-                                  validator: (val) =>int.parse(val.toString())==0
-                                      ? 'Invalid Name'
-                                      : null,
-                                  decoration: InputDecoration(
-                                    fillColor: Colors.white,
-                                    hintText: 'Amount',
-                                    labelText: 'Amount',
-                                    contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.text,
+                                    autovalidate: false,
+                                    validator: (val) =>val!=null||val.length<64
+                                        ? 'Invalid Description'
+                                        : null,
+                                    style: style,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.black,
+                                      hintText: 'Description',
+                                      labelText: 'Description',
+                                      labelStyle: new TextStyle(color: Colors.white70),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                                    ),
+                                    controller: description,
                                   ),
-                                  controller: amount,
                                 ),
-                              ),
-                              Wrap(
-                                children: tags.toList(),
-                              ),
-                              OutlineButton(
-                                child: Text("Submit POI"),
-                                onPressed: () async {
-                                  FocusScope.of(context).requestFocus(FocusNode());
-                                  Toast.show("Please wait..", context);
-                                  await _transactionStatus().then((val)async {
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.number,
+                                    autovalidate: false,
+                                    validator: (val) =>int.parse(val.toString())==0
+                                        ? 'Invalid Name'
+                                        : null,
+                                    style: style,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.black,
+                                      hintText: 'Amount',
+                                      labelText: 'Amount',
+                                      labelStyle: new TextStyle(color: Colors.white70),
+                                      contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                                    ),
+                                    controller: amount,
+                                  ),
+                                ),
+                                Wrap(
+                                  direction: Axis.horizontal,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  runAlignment: WrapAlignment.spaceEvenly,
+                                  children: tags.toList(),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(19.0),
+                                  child: OutlineButton(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Submit POI",style: style,),
+                                    ),
+                                    onPressed: () async {
+                                      FocusScope.of(context).requestFocus(FocusNode());
+                                      Toast.show("Please wait..", context);
+                                      await _transactionStatus().then((val)async {
 
-                                    if(transacting){
+                                        if(transacting){
 
-                                      Toast.show("Another Transaction is in progress",context, duration: Toast.LENGTH_LONG);
-                                    }
-                                    else{
-                                      MapBoxApiWrapper mWrapper = new MapBoxApiWrapper();
-                                      var ipfs = await mWrapper.addPoi(geohash, address.text, name.text, description.toString(), _filters);
-                                      print(ipfs);
-                                      EthWrapper eWrapper = new EthWrapper();
-                                      var status = await eWrapper.addPOI(geohash, double.parse(amount.text), ipfs);
-                                      if(status){
-                                        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-                                      }
-                                    }
-                                  });
+                                          Toast.show("Another Transaction is in progress",context, duration: Toast.LENGTH_LONG);
+                                        }
+                                        else{
+                                          MapBoxApiWrapper mWrapper = new MapBoxApiWrapper();
+                                          var ipfs = await mWrapper.addPoi(geohash, address.text, name.text, description.toString(), _filters);
+                                          print(ipfs);
+                                          EthWrapper eWrapper = new EthWrapper();
+                                          var status = await eWrapper.addPOI(geohash, double.parse(amount.text), ipfs);
+                                          if(status){
+                                            Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
+                                          }
+                                        }
+                                      });
 
-                                },
-                              )
+                                    },
+                                  ),
+                                )
 
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ],

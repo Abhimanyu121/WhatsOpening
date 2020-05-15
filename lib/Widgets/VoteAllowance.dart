@@ -56,7 +56,7 @@ class VoteState extends State<VoteAllowance> {
                     obscureText: false,
                     style: style,
                     decoration: InputDecoration(
-                        fillColor: HexColor("#00264d"),
+                        fillColor: Colors.black,
                         filled: true,
                         hintStyle: hintStyle,
                         contentPadding: EdgeInsets.fromLTRB(15, 10, 15, 10),

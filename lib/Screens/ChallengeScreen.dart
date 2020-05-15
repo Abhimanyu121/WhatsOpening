@@ -53,7 +53,7 @@ class ChallengeScreenState extends State<ChallengeScreen>{
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Text(
-              "Change",
+              "Challenge",
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
@@ -68,7 +68,7 @@ class ChallengeScreenState extends State<ChallengeScreen>{
             Row(
               children: <Widget>[
                 Text(
-                  "Allowance",
+                  "Place",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.blue,

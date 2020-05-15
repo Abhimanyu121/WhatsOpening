@@ -9,7 +9,7 @@ class FoamInfo extends StatelessWidget{
       child: Column(
         children: <Widget>[
           SizedBox(
-            height: 30,
+            height: MediaQuery.of(context).size.height*0.1,
           ),
           Expanded(
             child: ListView(
