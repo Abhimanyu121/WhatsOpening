@@ -79,7 +79,7 @@ class _TransactionViewState extends State<TransactionView>
                             onPressed: () {},
                             child: Text(
                               hash,
-                              textAlign: TextAlign.left,
+//                              textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.normal,
