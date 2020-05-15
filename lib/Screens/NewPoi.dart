@@ -1,7 +1,6 @@
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 import 'package:flu/Wrappers/MapBoxApiWrapper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -126,15 +125,45 @@ class NewPoiState extends State<NewPoi>{
   Widget build(BuildContext context) {
     final String  geohash = ModalRoute.of(context).settings.arguments;
     // TODO: implement build
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-          middle: Text(
-            "Add POI",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
+    return Scaffold(
+      appBar:AppBar(
+        brightness: Brightness.light,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "Change",
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            Row(children: <Widget>[
+              Text(
+                "  ",
+              ),
+            ]),
+            Row(
+              children: <Widget>[
+                Text(
+                  "Allowance",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    fontSize: 26.0,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.black54,
-      child: Center(
+      body: Center(
         child: _loading?SpinKitFadingCircle(size:50, color:Colors.blue):!bal?lessBal:ListView(
 
           children: <Widget>[
@@ -237,7 +266,7 @@ class NewPoiState extends State<NewPoi>{
                               Wrap(
                                 children: tags.toList(),
                               ),
-                              CupertinoButton.filled(
+                              OutlineButton(
                                 child: Text("Submit POI"),
                                 onPressed: () async {
                                   FocusScope.of(context).requestFocus(FocusNode());

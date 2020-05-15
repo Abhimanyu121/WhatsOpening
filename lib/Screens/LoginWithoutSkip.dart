@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -21,14 +20,44 @@ class LoginWithoutSkipState extends State<LoginWithoutSkip> {
   Widget build(BuildContext context) {
     TextEditingController pvt = new TextEditingController();
     // TODO: implement build
-    return CupertinoPageScaffold(
-      navigationBar:  CupertinoNavigationBar(
-          middle: Text(
-            "Login",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
+    return Scaffold(
+      appBar:AppBar(
+        brightness: Brightness.light,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "Change",
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            Row(children: <Widget>[
+              Text(
+                "  ",
+              ),
+            ]),
+            Row(
+              children: <Widget>[
+                Text(
+                  "Allowance",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    fontSize: 26.0,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
       ),
-      child: Center(
+      body: Center(
         child: Container(
           color: Colors.white,
           child: Padding(

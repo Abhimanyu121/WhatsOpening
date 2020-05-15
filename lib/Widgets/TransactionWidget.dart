@@ -73,7 +73,7 @@ class _TransactionViewState extends State<TransactionView>
                     child: noTransactions
                         ? Text(
                             "No Transactions yet!",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.white70),
                           )
                         : FlatButton(
                             onPressed: () {},
@@ -85,7 +85,7 @@ class _TransactionViewState extends State<TransactionView>
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
                                 letterSpacing: 0.0,
-                                color: Colors.black,
+                                color: Colors.white70,
                               ),
                             ),
                           ),
@@ -125,7 +125,7 @@ class _TransactionViewState extends State<TransactionView>
                                             : err
                                                 ? "Transaction failed"
                                                 : "Transaction merged",
-                                        style: TextStyle(color: Colors.black),
+                                        style: TextStyle(color: Colors.white70),
                                       )
                               ],
                             )),

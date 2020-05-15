@@ -1,6 +1,5 @@
 import 'package:flu/Models/ArgListPanelChallege.dart';
 import 'package:flu/Widgets/PoiInformation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
@@ -45,15 +44,45 @@ class ChallengeScreenState extends State<ChallengeScreen>{
 
     final ArgListPanelChallenge args = ModalRoute.of(context).settings.arguments;
     // TODO: implement build
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-          middle: Text(
-            "Challenge POI",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          )
+    return Scaffold(
+      appBar: AppBar(
+        brightness: Brightness.light,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Text(
+              "Change",
+              style: TextStyle(
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            Row(children: <Widget>[
+              Text(
+                "  ",
+              ),
+            ]),
+            Row(
+              children: <Widget>[
+                Text(
+                  "Allowance",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue,
+                    fontSize: 26.0,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
       ),
-      child:Container(
-        color: Colors.black26,
+      body:Container(
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(

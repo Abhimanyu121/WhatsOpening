@@ -2,7 +2,6 @@ import 'package:flu/Models/POIModel.dart';
 import 'package:flu/Screens/Map.dart';
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/ThemeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -173,7 +172,7 @@ class PoiWidgetState extends State<PoiWidget>{
                 height: 10,
               ),
               Center(
-                child: CupertinoButton.filled(
+                child: OutlineButton(
                   child: Text("Challenge"),
                   onPressed: () async {
                     FocusScope.of(context).requestFocus(FocusNode());

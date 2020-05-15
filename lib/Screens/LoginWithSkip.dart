@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -20,9 +19,9 @@ class LoginWithSkipState extends State<LoginWithSkip> {
   Widget build(BuildContext context) {
     TextEditingController pvt = new TextEditingController();
     // TODO: implement build
-    return CupertinoPageScaffold(
+    return Scaffold(
 
-      child: Center(
+      body: Center(
         child: Container(
           color: Colors.white,
           child: Padding(
