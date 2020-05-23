@@ -1,3 +1,4 @@
+import 'package:flu/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -86,6 +87,24 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                         prefs.setBool("loggedIn", true);
                         Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
                       },
+                    ),
+                    SizedBox(
+                      height: 20.0,width:180.0 ,
+                      child: Divider(color: Colors.teal.shade400,),
+                    ),
+                    RaisedButton(
+
+                      child: Text(
+                        'Login with Google',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed:(){},
+                      color: Colors.red,
+
                     )
                   ],
                 ),

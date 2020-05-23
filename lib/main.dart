@@ -9,6 +9,7 @@ import 'Screens/ChallengeScreen.dart';
 import 'Screens/LoginWithSkip.dart';
 import 'Screens/LoginWithoutSkip.dart';
 import 'Screens/NewPoi.dart';
+import 'Screens/Timepicker.dart';
 
 void main() => runApp(MyApp());
 
@@ -71,6 +72,8 @@ class _MyAppState extends State<MyApp> {
         '/LoginWithoutSkip': (context) => LoginWithoutSkip(),
         '/home': (context) => Home(),
         '/AddPoi': (context) => NewPoi(),
+        '/Timepicker':(context)=>TimePicker(),
+
       },
       title: 'FOAM MAP',
 
