@@ -2,7 +2,7 @@ import 'package:flu/Models/ArgListPanelChallege.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Models/POIModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flu/Screens/Timepicker.dart';
 import 'Map.dart';
 class PanelUi extends StatefulWidget{
 
@@ -136,11 +136,24 @@ class PanelState extends State<PanelUi>{
               else{
                 Navigator.pushNamed(context, '/LoginWithoutSkip');
               }
-
-
-
-            }):Container(),
+            },):Container(),
           ),
+         Center(child: RaisedButton(
+           child: Text(
+             'Start/End Time',
+           style: TextStyle(
+             color: Colors.black,
+             fontSize: 16.0,
+             fontWeight: FontWeight.bold,
+           ),),
+           onPressed:() async{
+             Navigator.pushNamed(
+               context,
+               '/timepicker',
+             );
+           } ,
+         ),),
+
           SizedBox(
             height: 100,
           )
@@ -148,5 +161,5 @@ class PanelState extends State<PanelUi>{
       ),
     );
   }
-//
+
 }

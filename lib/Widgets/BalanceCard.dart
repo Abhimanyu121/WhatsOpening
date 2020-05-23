@@ -27,10 +27,10 @@ class _BalanceCardState extends State<BalanceCard> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
+      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 8),
       child: Container(
-        width: MediaQuery.of(context).size.width*0.9,
-
+       width: MediaQuery.of(context).size.width*0.7,
+         height: 190,
         decoration: BoxDecoration(
           gradient: LinearGradient(
               colors: [AppTheme.nearlyWhite, HexColor("#FFFFFF")],
@@ -45,7 +45,7 @@ class _BalanceCardState extends State<BalanceCard> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
