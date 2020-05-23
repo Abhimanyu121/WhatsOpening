@@ -1,3 +1,4 @@
+import 'package:flu/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -88,12 +89,10 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                       },
                     ),
                     SizedBox(
-                      height: 20.0,width:150.0 ,
+                      height: 20.0,width:180.0 ,
                       child: Divider(color: Colors.teal.shade400,),
                     ),
                     RaisedButton(
-
-                      color: Colors.red,
 
                       child: Text(
                         'Login with Google',
@@ -103,6 +102,8 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                           color: Colors.white,
                         ),
                       ),
+                      onPressed:(){},
+                      color: Colors.red,
 
                     )
                   ],
