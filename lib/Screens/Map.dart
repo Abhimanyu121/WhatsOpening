@@ -151,9 +151,10 @@ class MapState extends State<MapUi> {
     mapController.addListener(_onMapChanged);
     mapController.onSymbolTapped.add(_selectCircle);
     getLoc().then((pos){
-      _fetchPOI(pos).then((a){
+      if(mounted){
+        _fetchPOI(pos);
+      }
 
-      });
     });
   }
 

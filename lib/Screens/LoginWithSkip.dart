@@ -2,6 +2,7 @@ import 'package:flu/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:web3dart/credentials.dart';
 class LoginWithSkip extends StatefulWidget{
   @override
   LoginWithSkipState createState() => new LoginWithSkipState();
@@ -73,8 +74,11 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                         if(pvt.text.length == 64){
                           SharedPreferences prefs = await SharedPreferences.getInstance();
                           prefs.setString("privateKey",pvt.text);
+                          Credentials credentials = EthPrivateKey.fromHex(pvt.text.trim());
+                          var _addr = await credentials.extractAddress();
                           prefs.setBool("loggedIn", true);
-                          Navigator.pushNamed(context,'/home');
+                          prefs.setString("address",_addr.hex);
+                          Navigator.popAndPushNamed(context,'/home');
                         }
                         else{Toast.show("Invalid private key",context);}
                       },

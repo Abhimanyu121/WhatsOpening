@@ -20,11 +20,14 @@ class HomeState extends State<Home>{
   MapUi map;
   bool selection = false;
   CameraPosition _pos;
-
+  GlobalKey<MapState> _MapState;
+  PanelUi pui;
   setModel(POIModel model){
     setState(() {
       this.model = model;
       this.selection = false;
+      pui = PanelUi(model,_MapState,_refresh);
+      //pui.fetchTimings();
     });
   }
   _refresh(){
@@ -38,7 +41,9 @@ class HomeState extends State<Home>{
       target: LatLng(28.7041, 77.1025),
       zoom: 11.0,
     );
+    _MapState = GlobalKey<MapState>();
     map = MapUi(setModel: setModel,kInitialPosition: _pos,);
+    pui = PanelUi(model,_MapState,_refresh);
   }
 
   @override
@@ -80,7 +85,6 @@ class HomeState extends State<Home>{
           ],
         )
     );
-    final GlobalKey<MapState> _MapState = GlobalKey<MapState>();
     final double _initFabHeight = 120.0;
     double _fabHeight = 120.0;
     double _panelHeightClosed = 95.0;
@@ -123,7 +127,10 @@ class HomeState extends State<Home>{
         ),
         actions: <Widget>[FlatButton(
           onPressed: ()async{
-
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString("privateKey","");
+            prefs.setBool("loggedIn", false);
+            Navigator.popAndPushNamed(context, "/LoginWithSkip");
           },
           child: Row(
             children: <Widget>[
@@ -268,7 +275,7 @@ class HomeState extends State<Home>{
                 _fabHeight = pos * _panelHeightClosed + _initFabHeight;
               }),
               panel: Center(
-                child: model==null?FoamInfo():new PanelUi(model,_MapState,_refresh),
+                child: model==null?FoamInfo():pui,
               ),
               collapsed: model==null?selection?addPOI:Container(
                 child: Card(

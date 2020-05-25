@@ -1,0 +1,207 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "opening_min",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "opening_hour",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "closing_min",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "closing_hour",
+        "type": "uint8"
+      },
+      {
+        "internalType": "string",
+        "name": "listingHash",
+        "type": "string"
+      }
+    ],
+    "name": "addDetails",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "listingHash",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "detailProvider",
+        "type": "address"
+      }
+    ],
+    "name": "downvoteDetail",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "listingHash",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "detailProvider",
+        "type": "address"
+      }
+    ],
+    "name": "upvoteDetail",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "detail_array",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "opening_min",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "opening_hour",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "closing_min",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint8",
+        "name": "closing_hour",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "upvotes",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "downvotes",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "addr",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      }
+    ],
+    "name": "getAddr",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "hash",
+        "type": "string"
+      }
+    ],
+    "name": "getDetaild",
+    "outputs": [
+      {
+        "internalType": "uint8[]",
+        "name": "",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "uint8[]",
+        "name": "",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "uint8[]",
+        "name": "",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "uint8[]",
+        "name": "",
+        "type": "uint8[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      },
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "listing_detail_counter",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
