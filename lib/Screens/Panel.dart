@@ -217,38 +217,38 @@ class PanelState extends State<PanelUi>{
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          OutlineButton(
-                            borderSide: BorderSide(
-                                color: Colors.black87
-                            ),
-                            child: Text(
-                              'Upvote',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),),
-                            onPressed:() async{
-                              MaticWrapper.upvote(timings[timings.length-1].address, timings[timings.length-1].hash);
-                              Toast.show("Upvoting", context);
-                            } ,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.thumb_up, color: Colors.green,),
+                                onPressed:() async{
+                                  MaticWrapper.upvote(timings[timings.length-1].address, timings[timings.length-1].hash).then((tx){
+                                    refetch();
+                                  });
+                                  Toast.show("Upvoting", context);
+                                } ,
+                              ),
+                              Text(timings[timings.length-1].upvotes.toString()),
+                            ],
                           ),
-                          OutlineButton(
-                            borderSide: BorderSide(
-                                color: Colors.black87
-                            ),
-                            child: Text(
-                              'Downvote',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),),
-                            onPressed:() async{
-                              MaticWrapper.upvote(timings[timings.length-1].address, timings[timings.length-1].hash);
-                              Toast.show("Upvoting", context);
-                            } ,
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.thumb_down, color: Colors.red,),
+                                onPressed:() async{
+                                  MaticWrapper.downvote(timings[timings.length-1].address, timings[timings.length-1].hash).then((tx){
+                                    refetch();
+                                  });
+                                  Toast.show("downvoting", context);
+                                } ,
+                              ),
+                              Text(timings[timings.length-1].downvotes.toString())
+                            ],
+                          )
+
+
                         ],
                       ),
                     ),
@@ -269,44 +269,43 @@ class PanelState extends State<PanelUi>{
                           ),
                           Text("Closing Time: ${sorted[0].closing_hour}:${sorted[0].closing_min}",
                             style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
-                          )
+                          ),
                         ],
                       ),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          OutlineButton(
-                            borderSide: BorderSide(
-                                color: Colors.black87
-                            ),
-                            child: Text(
-                              'Upvote',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),),
-                            onPressed:() async{
-                              MaticWrapper.upvote(sorted[0].address, sorted[0].hash);
-                              Toast.show("Upvoting", context);
-                            } ,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.thumb_up, color: Colors.green,),
+                                onPressed:() async{
+                                  MaticWrapper.upvote(sorted[0].address, sorted[0].hash).then((tx){
+                                    refetch();
+                                  });
+                                  Toast.show("Upvoting", context);
+                                } ,
+                              ),
+                              Text(sorted[0].upvotes.toString()),
+                            ],
                           ),
-                          OutlineButton(
-                            borderSide: BorderSide(
-                                color: Colors.black87
-                            ),
-                            child: Text(
-                              'Downvote',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),),
-                            onPressed:() async{
-                              MaticWrapper.upvote(sorted[0].address, sorted[0].hash);
-                              Toast.show("Downvoting", context);
-                            } ,
-                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.thumb_down, color: Colors.red,),
+                                onPressed:() async{
+                                  MaticWrapper.downvote(sorted[0].address, sorted[0].hash).then((tx){
+                                    refetch();
+                                  });
+                                  Toast.show("Downvoting", context);
+                                } ,
+                              ),
+                              Text(sorted[0].downvotes.toString())
+                            ],
+                          )
+
                         ],
                       ),
                     ),
