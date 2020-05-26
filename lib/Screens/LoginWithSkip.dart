@@ -126,70 +126,83 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                       child: Card(
                         elevation: 0,
                         color:Colors.white ,
-                        child: TextFormField(
-                          keyboardType: TextInputType.text,
-                          autovalidate: true,
-                          validator: (val) => val.length<64
-                              ? 'Invalid private key'
-                              : null,
-                          decoration: InputDecoration(
-                            fillColor: Colors.white,
-                            hintText: 'Private key',
-                            labelText: 'Private key',
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            autovalidate: true,
+                            validator: (val) => (val.length<64&&val.isNotEmpty)
+                                ? 'Invalid private key'
+                                : null,
+                            decoration: InputDecoration(
+                              fillColor: Colors.white,
+                              hintText: 'Private key',
+                              labelText: 'Private key',
+                              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(3.0)),
+                            ),
+                            controller: pvt,
                           ),
-                          controller: pvt,
                         ),
 
                       ),
                     ),
-                    RaisedButton(
-                      child: Text("Continue"),
-                      onPressed: ()async {
-                        if(pvt.text.length == 64){
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          prefs.setString("privateKey",pvt.text);
-                          Credentials credentials = EthPrivateKey.fromHex(pvt.text.trim());
-                          var _addr = await credentials.extractAddress();
-                          prefs.setBool("loggedIn", true);
-                          prefs.setString("address",_addr.hex);
-                          Navigator.popAndPushNamed(context,'/home');
-                        }
-                        else{Toast.show("Invalid private key",context);}
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: OutlineButton(
+                        borderSide: BorderSide(
+                          color: Colors.blue
+                        ),
+                        child: Text("Login with Private Key"),
+                        onPressed: ()async {
+                          if(pvt.text.length == 64){
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString("privateKey",pvt.text);
+                            Credentials credentials = EthPrivateKey.fromHex(pvt.text.trim());
+                            var _addr = await credentials.extractAddress();
+                            prefs.setBool("loggedIn", true);
+                            prefs.setString("address",_addr.hex);
+                            Navigator.popAndPushNamed(context,'/home');
+                          }
+                          else{Toast.show("Invalid private key",context);}
+                        },
 
+                      ),
                     ),
-                   Row(
-                     mainAxisAlignment: MainAxisAlignment.center,
-                     children: <Widget>[
-                       Divider(
-                         thickness: 10,
-                         color: Colors.black87,
-                       ),
-                       Text("OR",style: TextStyle(color: Colors.black87),),
-                       Divider(
-                         color: Colors.black87,
-                         thickness: 10,
-                       ),
-                     ],
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: <Widget>[
+                         Divider(
+                           thickness: 10,
+                           color: Colors.black,
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.all(8.0),
+                           child: Text("OR",style: TextStyle(color: Colors.black87),),
+                         ),
+                         Divider(
+                           color: Colors.black,
+                           thickness: 10,
+                         ),
+                       ],
+                     ),
                    ),
-                    SizedBox(
-                      height: 20.0,width:180.0 ,
-                      child: Divider(color: Colors.teal.shade400,),
-                    ),
-                    RaisedButton(
 
+                    OutlineButton(
+                      borderSide: BorderSide(
+                        color: Colors.red,
+                      ),
                       child: Text(
                         'Login with Google',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14.0,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       onPressed:_checkWalletStatus,
-                      color: Colors.red,
 
                     )
                   ],

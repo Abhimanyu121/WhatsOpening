@@ -25,6 +25,8 @@ class PanelState extends State<PanelUi>{
   List<TimeModel> timings;
   List<TimeModel> sorted;
   var model;
+  bool open =false;
+  bool openVoted = false;
   var colorArr = [Colors.blue,Colors.redAccent,Colors.green, Colors.deepOrange];
   bool state =false;
   @override
@@ -33,6 +35,7 @@ class PanelState extends State<PanelUi>{
     MaticWrapper.fetchList(widget.model.listingHash).then((ls)async{
       var arr =await  MaticWrapper.getAddress(widget.model.listingHash);
       List<TimeModel> modelList = List<TimeModel>();
+      List<TimeModel> sortedList = List<TimeModel>();
       for(int i=0; i<ls[0].length;i++){
         TimeModel model = new TimeModel(
           opening_hour: ls[0][i],
@@ -45,8 +48,40 @@ class PanelState extends State<PanelUi>{
           hash: widget.model.listingHash
         );
         modelList.add(model);
+        sortedList.add(model);
+
       }
-      sorted = modelList;
+      sorted = sortedList;
+      var currentTime = TimeOfDay.now();
+      if(modelList[modelList.length-1].opening_hour<BigInt.from(currentTime.hour)){
+        if(modelList[modelList.length-1].closing_hour>BigInt.from(currentTime.hour)){
+          open =true;
+        }
+        else if(modelList[modelList.length-1].closing_hour==BigInt.from(currentTime.hour)){
+          if(modelList[modelList.length-1].closing_min<BigInt.from(currentTime.minute)){
+            open =  true;
+          }
+        }
+      }else if(modelList[modelList.length-1].opening_hour==BigInt.from(currentTime.hour)){
+        if(modelList[modelList.length-1].opening_min>BigInt.from(currentTime.minute)){
+          open =  true;
+        }
+      }
+
+      if(sorted[0].opening_hour<BigInt.from(currentTime.hour)){
+        if(sorted[0].closing_hour>BigInt.from(currentTime.hour)){
+          openVoted =true;
+        }
+        else if(sorted[0].closing_hour==BigInt.from(currentTime.hour)){
+          if(sorted[0].closing_min<BigInt.from(currentTime.minute)){
+            openVoted =  true;
+          }
+        }
+      }else if(sorted[0].opening_hour==BigInt.from(currentTime.hour)){
+        if(sorted[0].opening_min>BigInt.from(currentTime.minute)){
+          openVoted =  true;
+        }
+      }
       sorted.sort(mySortComparison);
       setState((){
         timings = modelList;
@@ -78,6 +113,36 @@ class PanelState extends State<PanelUi>{
 
       }
       sorted = sortedList;
+      var currentTime = TimeOfDay.now();
+      if(modelList[modelList.length-1].opening_hour<BigInt.from(currentTime.hour)){
+        if(modelList[modelList.length-1].closing_hour>BigInt.from(currentTime.hour)){
+          open =true;
+        }
+        else if(modelList[modelList.length-1].closing_hour==BigInt.from(currentTime.hour)){
+          if(modelList[modelList.length-1].closing_min<BigInt.from(currentTime.minute)){
+            open =  true;
+          }
+        }
+      }else if(modelList[modelList.length-1].opening_hour==BigInt.from(currentTime.hour)){
+        if(modelList[modelList.length-1].opening_min>BigInt.from(currentTime.minute)){
+          open =  true;
+        }
+      }
+
+      if(sorted[0].opening_hour<BigInt.from(currentTime.hour)){
+        if(sorted[0].closing_hour>BigInt.from(currentTime.hour)){
+          openVoted =true;
+        }
+        else if(sorted[0].closing_hour==BigInt.from(currentTime.hour)){
+          if(sorted[0].closing_min<BigInt.from(currentTime.minute)){
+            openVoted =  true;
+          }
+        }
+      }else if(sorted[0].opening_hour==BigInt.from(currentTime.hour)){
+        if(sorted[0].opening_min>BigInt.from(currentTime.minute)){
+          openVoted =  true;
+        }
+      }
       sorted.sort(mySortComparison);
       setState((){
         timings = modelList;
@@ -208,17 +273,29 @@ class PanelState extends State<PanelUi>{
                     ),
                     ListTile(
                       isThreeLine: true,
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      title: Column(
                         children: <Widget>[
-                          Text("Opening Time: ${timings[timings.length-1].opening_hour}:${timings[timings.length-1].opening_min}",
-                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text("Opening Time: ${timings[timings.length-1].opening_hour}:${timings[timings.length-1].opening_min}",
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                              ),
+                              Text("Closing Time: ${timings[timings.length-1].closing_hour}:${timings[timings.length-1].closing_min}",
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                              )
+                            ],
                           ),
-                          Text("Closing Time: ${timings[timings.length-1].closing_hour}:${timings[timings.length-1].closing_min}",
-                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                          open?Padding(
+                            padding: const EdgeInsets.symmetric(vertical:15.0),
+                            child: Text("This place is probably open right now", style: TextStyle(color: Colors.green),),
+                          ):Padding(
+                            padding: const EdgeInsets.symmetric(vertical:15.0),
+                            child: Text("This place is probably closed right now", style: TextStyle(color: Colors.red),),
                           )
                         ],
                       ),
+
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -266,15 +343,27 @@ class PanelState extends State<PanelUi>{
                     ),
                     ListTile(
                       isThreeLine: true,
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      title: Column(
                         children: <Widget>[
-                          Text("Opening Time: ${sorted[0].opening_hour}:${sorted[0].opening_min}",
-                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text("Opening Time: ${sorted[0].opening_hour}:${sorted[0].opening_min}",
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                              ),
+                              Text("Closing Time: ${sorted[0].closing_hour}:${sorted[0].closing_min}",
+                                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
+                              ),
+                            ],
                           ),
-                          Text("Closing Time: ${sorted[0].closing_hour}:${sorted[0].closing_min}",
-                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey),
-                          ),
+                          openVoted?Padding(
+                            padding: const EdgeInsets.symmetric(vertical:15.0),
+                            child: Text("This place is probably open right now", style: TextStyle(color: Colors.green),),
+                          ):Padding(
+                            padding: const EdgeInsets.symmetric(vertical:15.0),
+                            child: Text("This place is probably closed right now", style: TextStyle(color: Colors.red),),
+                          )
+
                         ],
                       ),
                       subtitle: Row(
