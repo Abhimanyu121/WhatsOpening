@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:web3dart/crypto.dart';
 import 'package:web3dart/web3dart.dart';
@@ -153,6 +155,11 @@ class EthWrapper {
     var abi = await rootBundle.loadString("assets/registry.json");
     print(geohash);
     String ls= int.parse(geohash,radix: 36).toRadixString(16);
+    var bytes = utf8.encode(ls);
+    var digest = sha1.convert(bytes);
+    var hash = "0x"+digest.toString();
+    print(hash);
+    var hexBytes= hexToBytes(hash);
     var bt = hexToBytes(ls);
     print(bt);
     print(ls);

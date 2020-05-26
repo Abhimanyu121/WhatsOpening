@@ -318,7 +318,7 @@ class NewPoiState extends State<NewPoi>{
                                         }
                                         else{
                                           MapBoxApiWrapper mWrapper = new MapBoxApiWrapper();
-                                          var ipfs = await mWrapper.addPoi(geohash, address.text, name.text, description.toString(), _filters);
+                                          var ipfs = await mWrapper.addPoi(geohash, address.text, name.text, description.text, _filters);
                                           print(ipfs);
                                           EthWrapper eWrapper = new EthWrapper();
                                           var status = await eWrapper.addPOI(geohash, double.parse(amount.text), ipfs);

@@ -151,7 +151,10 @@ class DashboardState extends State<Dashboard> {
                                         icon: Icon(Icons.content_copy),
                                         color: Colors.black38,
                                         onPressed: (){
-
+                                          Clipboard.setData(
+                                              ClipboardData(text:address)).then((result){
+                                            Toast.show("Address Copied",context);
+                                          } );
                                         },
                                       )
                                     ],

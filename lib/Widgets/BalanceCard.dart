@@ -1,5 +1,6 @@
 import 'package:flu/Wrappers/EtherscanWrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../ThemeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
@@ -58,80 +59,119 @@ class _BalanceCardState extends State<BalanceCard> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "Your Approved Tokens :",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Registry",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
+              widget.total==BigInt.from(0)?Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("Looking for a place to get Started?"),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: MaterialButton(
+                          shape: Border.all(width: 1.0, color: Colors.blueGrey),
+                          color: Colors.black,
+                          child: Text(
+                            "Click here",
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () async {
+                            const url = 'https://blog.foam.space/foam-map-user-guide-for-the-ethereum-mainnet-1e5be52e294f';
+                            if (await canLaunch(url)) {
+                              await launch(url);
+                            } else {
+                              throw 'Could not launch $url';
+                            }
+                          },
+                        ),
                       ),
-                      widget.reg == BigInt.from(0)
-                          ? Text("0")
-                          : Text(
-                              widget.reg.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            )
+                    ),
+                  ],
+                ),
+              ):Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Your Approved Tokens :",
+                    style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            "Registry",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.black),
+                          ),
+                          widget.reg == BigInt.from(0)
+                              ? Text("0")
+                              : Text(
+                            widget.reg.toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            "Voting",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.black),
+                          ),
+                          widget.voting == BigInt.from(0)
+                              ? Text("0")
+                              : Text(
+                            widget.voting.toString(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        "Voting",
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Center(
+                    child: MaterialButton(
+                      shape: Border.all(width: 1.0, color: Colors.blueGrey),
+                      color: Colors.black,
+                      child: Text(
+                        "Change Allowances",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
+                          fontSize: 13.0,
+                          color: Colors.white,
+                        ),
                       ),
-                      widget.voting == BigInt.from(0)
-                          ? Text("0")
-                          : Text(
-                              widget.voting.toString(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black),
-                            ),
-                    ],
+                      onPressed: () async {
+                        await _transactionStatus().then((val) {
+                          if (transacting) {
+                            Toast.show(
+                                "Another Transaction is in progress", context,
+                                duration: Toast.LENGTH_LONG);
+                          } else {
+                            Navigator.pushNamed(context, '/allowance');
+                          }
+                        });
+                      },
+                    ),
                   )
                 ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: MaterialButton(
-                  shape: Border.all(width: 1.0, color: Colors.blueGrey),
-                  color: Colors.black,
-                  child: Text(
-                    "Change Allowances",
-                    style: TextStyle(
-                      fontSize: 13.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () async {
-                    await _transactionStatus().then((val) {
-                      if (transacting) {
-                        Toast.show(
-                            "Another Transaction is in progress", context,
-                            duration: Toast.LENGTH_LONG);
-                      } else {
-                        Navigator.pushNamed(context, '/allowance');
-                      }
-                    });
-                  },
-                ),
               )
+
             ],
           ),
         ),

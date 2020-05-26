@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flu/Models/POIModel.dart';
 import 'package:geohash/geohash.dart';
+import 'package:uuid/uuid.dart';
 class MapBoxApiWrapper {
   double nelat ;
   double nelong ;
@@ -89,6 +90,7 @@ class MapBoxApiWrapper {
   }
   Future<String> addPoi(String geoHash, String address, String name,String description, List<String> tags)async {
     const String url = "https://rink-cd-api.foam.space/poi/ipfs";
+    var uuid = Uuid();
     Map<String, dynamic> body = new Map<String, dynamic>();
     body["geohash"] = geoHash;
     body["address"] = address;
@@ -96,7 +98,7 @@ class MapBoxApiWrapper {
     body["description"] = description;
     body["tags"] = tags;
     body["phone"] = "(123) 456-789";
-    body["uUID"] = "00000400-0000-0800-0000-100000002000";
+    body["uUID"] = uuid.v4();
     body["web"] = "https://maps.bing.com";
     var data= json.encode(body);
     var resp = await http.post(url,  headers: {

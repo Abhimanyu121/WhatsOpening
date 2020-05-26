@@ -58,12 +58,12 @@ class PanelState extends State<PanelUi>{
           open =true;
         }
         else if(modelList[modelList.length-1].closing_hour==BigInt.from(currentTime.hour)){
-          if(modelList[modelList.length-1].closing_min<BigInt.from(currentTime.minute)){
+          if(modelList[modelList.length-1].closing_min>BigInt.from(currentTime.minute)){
             open =  true;
           }
         }
       }else if(modelList[modelList.length-1].opening_hour==BigInt.from(currentTime.hour)){
-        if(modelList[modelList.length-1].opening_min>BigInt.from(currentTime.minute)){
+        if(modelList[modelList.length-1].opening_min<BigInt.from(currentTime.minute)){
           open =  true;
         }
       }
@@ -119,12 +119,12 @@ class PanelState extends State<PanelUi>{
           open =true;
         }
         else if(modelList[modelList.length-1].closing_hour==BigInt.from(currentTime.hour)){
-          if(modelList[modelList.length-1].closing_min<BigInt.from(currentTime.minute)){
+          if(modelList[modelList.length-1].closing_min>BigInt.from(currentTime.minute)){
             open =  true;
           }
         }
       }else if(modelList[modelList.length-1].opening_hour==BigInt.from(currentTime.hour)){
-        if(modelList[modelList.length-1].opening_min>BigInt.from(currentTime.minute)){
+        if(modelList[modelList.length-1].opening_min<BigInt.from(currentTime.minute)){
           open =  true;
         }
       }
@@ -425,21 +425,76 @@ class PanelState extends State<PanelUi>{
                 SizedBox(
                   height: 10,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    OutlineButton(
+                      borderSide: BorderSide(
+                          color: Colors.blue
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width*0.38,
+                        child: Center(
+                          child: Text(
+                            'Add Timings',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                        ),
+                      ),
+                      onPressed:() async{
+                        Navigator.pushNamed(
+                            context,
+                            '/Timepicker',
+                            arguments: widget.model
+                        );
+                      } ,
+                    ),
+                    SizedBox(
+                      width:MediaQuery.of(context).size.width*0.38,
+                      child: OutlineButton(
+                        borderSide: BorderSide(
+                            color: Colors.blue
+                        ),
+                        child: Center(
+                          child: Text(
+                            'See Timing List',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),),
+                        ),
+                        onPressed:() async{
+                          Navigator.pushNamed(
+                              context,
+                              '/TimeList',
+                              arguments: widget.model
+                          );
+                        } ,
+                      ),
+                    ),
+                  ],
+                ),
                 Wrap(
                   direction: Axis.horizontal,
                   alignment: WrapAlignment.spaceAround,
                   children: <Widget>[
                     widget.model.state=="applied"?OutlineButton(
                       borderSide: BorderSide(
-                          color: Colors.black87
+                          color: Colors.red
                       ),
                       child: SizedBox(
-                        width: MediaQuery.of(context).size.width*0.4,
-                        child: Text("Challenge the Place",style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
+                        width: MediaQuery.of(context).size.width*0.83,
+                        child: Center(
+                          child: Text("Challenge the Place",style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),),
+                        ),
                       ), onPressed: ()async {
                       ArgListPanelChallenge args= new ArgListPanelChallenge();
                       args.model= widget.model;
@@ -458,47 +513,7 @@ class PanelState extends State<PanelUi>{
                         Navigator.pushNamed(context, '/LoginWithoutSkip');
                       }
                     },):Container(),
-                    OutlineButton(
-                      borderSide: BorderSide(
-                          color: Colors.black87
-                      ),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width*0.4,
-                        child: Text(
-                          'Add Timings',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),),
-                      ),
-                      onPressed:() async{
-                        Navigator.pushNamed(
-                          context,
-                          '/Timepicker',
-                          arguments: widget.model
-                        );
-                      } ,
-                    ),
-                    OutlineButton(
-                      borderSide: BorderSide(
-                          color: Colors.black87
-                      ),
-                      child: Text(
-                        'See Timing List',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
-                      onPressed:() async{
-                        Navigator.pushNamed(
-                            context,
-                            '/TimeList',
-                            arguments: widget.model
-                        );
-                      } ,
-                    ),
+
                   ],
                 ),
 
