@@ -1,3 +1,4 @@
+import 'package:flu/Screens/TimingList.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/home.dart';
 import 'package:flutter/services.dart';
@@ -73,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         '/home': (context) => Home(),
         '/AddPoi': (context) => NewPoi(),
         '/Timepicker':(context)=>TimePicker(),
-
+        '/TimeList':(context)=>TimeList(),
       },
       title: 'FOAM MAP',
 

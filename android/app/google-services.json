@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "595456278267",
+    "firebase_url": "https://foamwallet-211f7.firebaseio.com",
+    "project_id": "foamwallet-211f7",
+    "storage_bucket": "foamwallet-211f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:595456278267:android:bef362ce821b14b2d83a5e",
+        "android_client_info": {
+          "package_name": "trellislabs.flu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "595456278267-gdhrn4r926aqs9fjp6nbej8tdmtnhu02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "trellislabs.flu",
+            "certificate_hash": "6e0dd5891a9ed4396726690c27eab6130e782661"
+          }
+        },
+        {
+          "client_id": "595456278267-29fefpjpse46u87p9gehnrevc14majqh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_fadw44i6Py7L9X5VlN8x3RsZQoMNL_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "595456278267-29fefpjpse46u87p9gehnrevc14majqh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

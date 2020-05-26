@@ -1,4 +1,5 @@
-import 'package:clipboard_manager/clipboard_manager.dart';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flu/Widgets/BalanceCard.dart';
@@ -7,7 +8,6 @@ import 'package:flu/Widgets/TransactionWidget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
-import 'package:web3dart/credentials.dart';
 import '../Constants.dart';
 import '../ThemeData.dart';
 
@@ -215,8 +215,8 @@ class DashboardState extends State<Dashboard> {
               new FlatButton(
                   child: new Text('Copy'),
                   onPressed: (){
-                    ClipboardManager.copyToClipBoard(
-                        pvt).then((result){
+                    Clipboard.setData(
+                        ClipboardData(text:pvt)).then((result){
                       Toast.show("Private Key Copied",context);
                     } );
 

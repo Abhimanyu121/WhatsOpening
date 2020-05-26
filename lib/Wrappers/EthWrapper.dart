@@ -38,9 +38,9 @@ class EthWrapper {
     );
     print(response.toString());
     print(response3.toString());
-    BigInt vr = BigInt.from(BigInt.parse(response.toString().substring(1,response.toString().length-1))/BigInt.from(1000000000000000));
-    BigInt vr2 = BigInt.from(BigInt. parse(response2.toString().substring(1,response.toString().length-2))/BigInt.from(1000000000000000));
-    BigInt vr3 = BigInt.from(BigInt.parse(response3.toString().substring(1,response.toString().length-1))/BigInt.from(100000000000000));
+    double vr = response[0]/BigInt.from(1000000000000000);
+    double vr2 = response2[0]/BigInt.from(1000000000000000);
+    double vr3 = response3[0]/BigInt.from(100000000000000);
     double bal = vr.toDouble()/1000.0;
     double bal2 = vr2.toDouble()/1000.0;
     double bal3 = vr3.toDouble()/1000.0;

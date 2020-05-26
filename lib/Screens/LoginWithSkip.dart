@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flu/Constants.dart';
+import 'package:flu/Wrappers/KeyInterfaces.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'package:web3dart/credentials.dart';
@@ -9,6 +15,76 @@ class LoginWithSkip extends StatefulWidget{
 
 }
 class LoginWithSkipState extends State<LoginWithSkip> {
+
+  bool walletStatus = true;
+  String privateKey = "";
+  String address="";
+  var walletBalance = "0";
+  _checkWalletStatus() async {
+    setState(() {
+      walletStatus =false;
+    });
+    print("inside check status");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if(prefs.getString("email")==null||prefs.getString("email")==""){
+      final GoogleSignIn _googleSignIn = GoogleSignIn();
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+      print(user.email);
+      prefs.setString("email",user.email);
+      prefs.setString("user", user.displayName);
+    }
+    var key = prefs.getString("privateKey");
+    if(key =="" || key ==null){
+      await Firestore.instance
+          .collection('walletUsers')
+          .document(prefs.getString("email"))
+          .get()
+          .then((DocumentSnapshot ds)async  {
+        if(!ds.exists){
+          var keygen = await KeyInterface.generateKey();
+          print("pvtkey:$keygen");
+          var addr = prefs.getString("address");
+          await Firestore.instance.collection('walletUsers').document(prefs.getString("email"))
+              .setData({ "privateKey": keygen[0],"address": addr});
+
+          setState(() {
+            walletStatus =true;
+            address = addr;
+            privateKey = keygen[0];
+          });
+         // Navigator.popAndPushNamed(context,'/home');
+        }else {
+          await prefs.setString("privateKey", ds["privateKey"]);
+          await prefs.setString("address", ds["address"]);
+          await  prefs.setBool("loggedIn", true);
+          print("fstore"+ds["address"].toString());
+          setState(() {
+            walletStatus = true;
+            address = ds["address"];
+            privateKey = ds["privateKey"];
+          });
+          Navigator.popAndPushNamed(context,'/home');
+        }
+      });
+
+    }
+    else {
+      var addr = prefs.getString("address");
+      setState(() {
+        address = addr;
+        privateKey = key;
+      });
+      prefs.setBool("loggedIn", true);
+      Navigator.popAndPushNamed(context,'/home');
+    }
+  }
 
 
 
@@ -24,7 +100,7 @@ class LoginWithSkipState extends State<LoginWithSkip> {
     return Scaffold(
 
       body: Center(
-        child: Container(
+        child: walletStatus?Container(
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -84,14 +160,20 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                       },
 
                     ),
-                    FlatButton(
-                      child: Text("Skip For Now", style: TextStyle(color: Colors.black),),
-                      onPressed: ()async {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        prefs.setBool("loggedIn", true);
-                        Navigator.pushNamedAndRemoveUntil(context, "/home", (r) => false);
-                      },
-                    ),
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                     children: <Widget>[
+                       Divider(
+                         thickness: 10,
+                         color: Colors.black87,
+                       ),
+                       Text("OR",style: TextStyle(color: Colors.black87),),
+                       Divider(
+                         color: Colors.black87,
+                         thickness: 10,
+                       ),
+                     ],
+                   ),
                     SizedBox(
                       height: 20.0,width:180.0 ,
                       child: Divider(color: Colors.teal.shade400,),
@@ -106,7 +188,7 @@ class LoginWithSkipState extends State<LoginWithSkip> {
                           color: Colors.white,
                         ),
                       ),
-                      onPressed:(){},
+                      onPressed:_checkWalletStatus,
                       color: Colors.red,
 
                     )
@@ -115,6 +197,9 @@ class LoginWithSkipState extends State<LoginWithSkip> {
               ),
             )
           ),
+        ):  SpinKitCubeGrid(
+          size: 50,
+          color: appTheme,
         ),
       ),
 

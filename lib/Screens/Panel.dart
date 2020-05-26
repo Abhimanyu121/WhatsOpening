@@ -60,6 +60,7 @@ class PanelState extends State<PanelUi>{
     MaticWrapper.fetchList(widget.model.listingHash).then((ls)async{
       var arr =await  MaticWrapper.getAddress(widget.model.listingHash);
       List<TimeModel> modelList = List<TimeModel>();
+      List<TimeModel> sortedList = List<TimeModel>();
       for(int i=0; i<ls[0].length;i++){
         TimeModel model = new TimeModel(
             opening_hour: ls[0][i],
@@ -70,13 +71,17 @@ class PanelState extends State<PanelUi>{
             downvotes: ls[5][i],
             address: arr[0][i].toString(),
             hash: widget.model.listingHash
+
         );
+        sortedList.add(model);
         modelList.add(model);
+
       }
-      sorted = modelList;
+      sorted = sortedList;
       sorted.sort(mySortComparison);
       setState((){
         timings = modelList;
+
       });
     });
   }
@@ -331,48 +336,53 @@ class PanelState extends State<PanelUi>{
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Wrap(
+                  direction: Axis.horizontal,
+                  alignment: WrapAlignment.spaceAround,
                   children: <Widget>[
-                    Center(
-                      child: widget.model.state=="applied"?OutlineButton(
-                        borderSide: BorderSide(
-                            color: Colors.black87
-                        ),
+                    widget.model.state=="applied"?OutlineButton(
+                      borderSide: BorderSide(
+                          color: Colors.black87
+                      ),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width*0.4,
                         child: Text("Challenge the Place",style: TextStyle(
                           color: Colors.black,
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
-                        ),), onPressed: ()async {
-                        ArgListPanelChallenge args= new ArgListPanelChallenge();
-                        args.model= widget.model;
-                        args.key = widget._MapState;
-                        widget.refresh();
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                        var pvt = prefs.getString("privateKey");
-                        if(pvt!=null){
-                          Navigator.pushNamed(
-                            context,
-                            '/ChallengeScreen',
-                            arguments: args,
-                          );
-                        }
-                        else{
-                          Navigator.pushNamed(context, '/LoginWithoutSkip');
-                        }
-                      },):Container(),
-                    ),
-                    Center(child: OutlineButton(
+                        ),),
+                      ), onPressed: ()async {
+                      ArgListPanelChallenge args= new ArgListPanelChallenge();
+                      args.model= widget.model;
+                      args.key = widget._MapState;
+                      widget.refresh();
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      var pvt = prefs.getString("privateKey");
+                      if(pvt!=null){
+                        Navigator.pushNamed(
+                          context,
+                          '/ChallengeScreen',
+                          arguments: args,
+                        );
+                      }
+                      else{
+                        Navigator.pushNamed(context, '/LoginWithoutSkip');
+                      }
+                    },):Container(),
+                    OutlineButton(
                       borderSide: BorderSide(
                           color: Colors.black87
                       ),
-                      child: Text(
-                        'Add Timings',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width*0.4,
+                        child: Text(
+                          'Add Timings',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),),
+                      ),
                       onPressed:() async{
                         Navigator.pushNamed(
                           context,
@@ -380,9 +390,29 @@ class PanelState extends State<PanelUi>{
                           arguments: widget.model
                         );
                       } ,
-                    ),),
+                    ),
+                    OutlineButton(
+                      borderSide: BorderSide(
+                          color: Colors.black87
+                      ),
+                      child: Text(
+                        'See Timing List',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),),
+                      onPressed:() async{
+                        Navigator.pushNamed(
+                            context,
+                            '/TimeList',
+                            arguments: widget.model
+                        );
+                      } ,
+                    ),
                   ],
                 ),
+
               ],
             ),
           )
