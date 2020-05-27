@@ -114,7 +114,8 @@ class PanelState extends State<PanelUi>{
       }
       sorted = sortedList;
       var currentTime = TimeOfDay.now();
-      if(modelList[modelList.length-1].opening_hour<BigInt.from(currentTime.hour)){
+      if(modelList.length>0)
+      {if(modelList[modelList.length-1].opening_hour<BigInt.from(currentTime.hour)){
         if(modelList[modelList.length-1].closing_hour>BigInt.from(currentTime.hour)){
           open =true;
         }
@@ -143,8 +144,9 @@ class PanelState extends State<PanelUi>{
           openVoted =  true;
         }
       }
-      sorted.sort(mySortComparison);
+      sorted.sort(mySortComparison);}
       setState((){
+        print("at setState");
         timings = modelList;
 
       });
@@ -222,7 +224,7 @@ class PanelState extends State<PanelUi>{
             height: 10,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.45,
+            height: MediaQuery.of(context).size.height*0.55,
             child: ListView(
               cacheExtent: 100,
               shrinkWrap: true,

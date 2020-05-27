@@ -35,7 +35,7 @@ class _TransactionViewState extends State<TransactionView>
       builder: (BuildContext context, Widget child) {
         return Padding(
           padding:
-              const EdgeInsets.only(left: 15, right: 15, top: 0, bottom: 18),
+              const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 18),
           child: Container(
             width: MediaQuery.of(context).size.width*0.9,
             height: 210,

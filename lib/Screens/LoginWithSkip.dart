@@ -59,7 +59,10 @@ class LoginWithSkipState extends State<LoginWithSkip> {
             address = addr;
             privateKey = keygen[0];
           });
-         // Navigator.popAndPushNamed(context,'/home');
+          prefs.setBool("loggedIn", true);
+          prefs.setString("address", keygen[1]);
+          prefs.setString("privateKey", keygen[0]);
+          Navigator.popAndPushNamed(context,'/home');
         }else {
           await prefs.setString("privateKey", ds["privateKey"]);
           await prefs.setString("address", ds["address"]);
@@ -81,6 +84,8 @@ class LoginWithSkipState extends State<LoginWithSkip> {
         address = addr;
         privateKey = key;
       });
+      prefs.setString("address", addr);
+      prefs.setString("privateKey", key);
       prefs.setBool("loggedIn", true);
       Navigator.popAndPushNamed(context,'/home');
     }

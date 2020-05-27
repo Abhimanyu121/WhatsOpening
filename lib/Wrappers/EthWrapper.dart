@@ -153,7 +153,7 @@ class EthWrapper {
     Credentials credentials = EthPrivateKey.fromHex(pvt);
     final client = Web3Client(rpcUrl, http.Client());
     var abi = await rootBundle.loadString("assets/registry.json");
-    print(geohash);
+    print(data.substring(1,data.length-1));
     String ls= int.parse(geohash,radix: 36).toRadixString(16);
     var bytes = utf8.encode(ls);
     var digest = sha1.convert(bytes);
@@ -183,7 +183,7 @@ class EthWrapper {
           function: challenge,
           gasPrice: EtherAmount.inWei(BigInt.from(10000000000)),
           maxGas: 4000000,
-          parameters: [lt,BigInt.from(amount*1000)*BigInt.from(1000000000000000),data]
+          parameters: [lt,BigInt.from(amount*1000)*BigInt.from(1000000000000000),data.substring(1,data.length-1)]
       ),
       chainId: 4,
     );

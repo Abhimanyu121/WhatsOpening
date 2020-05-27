@@ -61,6 +61,7 @@ class DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height*0.06;
     return Scaffold(
         floatingActionButton: Container(
           height: 50,
@@ -86,27 +87,34 @@ class DashboardState extends State<Dashboard> {
             height: double.infinity,
             child: Stack(
               children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      color: Colors.black,
-                      width: double.infinity,
-                      height: 100,
-                      child: Padding(
-                       padding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 0.0),
-                        child: Text(
-                          'User Dashboard',
-                          style: TextStyle(
-                            fontSize: 35.0,
-                            color: Colors.white70,
+                Positioned(
+                  top: 0,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height*0.2,
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          color: Colors.black,
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height*0.18,
+                          child: Padding(
+                           padding:  EdgeInsets.fromLTRB(10.0, height, 10.0, 0.0),
+                            child: Text(
+                              'User Dashboard',
+                              style: TextStyle(
+                                fontSize: 35.0,
+                                color: Colors.white70,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
                 Positioned(
-                  top:40,
+                  top:MediaQuery.of(context).size.height*0.12,
                   left: 40,
                   right: 40,
                   child: loading?SpinKitFadingCircle(size:50, color:Colors.blue): Scrollbar(
@@ -120,71 +128,71 @@ class DashboardState extends State<Dashboard> {
                         height: 5.0,
                       ),
                         TransactionView(),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            height: 200,
-                            width: MediaQuery.of(context).size.width*0.7,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [AppTheme.nearlyWhite, HexColor("#FFFFFF")],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight),
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey.withOpacity(0.6),
-                                    offset: Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Text("You Address:", style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                                      IconButton(
-                                        icon: Icon(Icons.content_copy),
-                                        color: Colors.black38,
-                                        onPressed: (){
-                                          Clipboard.setData(
-                                              ClipboardData(text:address)).then((result){
-                                            Toast.show("Address Copied",context);
-                                          } );
-                                        },
-                                      )
-                                    ],
-                                  ),
-                                  Text(address, style: TextStyle(color: Colors.black87),),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: MaterialButton(
-                                          shape: Border.all(width: 1.0, color: Colors.blueGrey),
-                                          color: Colors.black,
-                                          child: Text(
-                                              'Reveal PrivateKey',
-                                            style: TextStyle(
-                                              fontSize: 13.0,
-                                              //fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                            ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
+                        Container(
+                          height: 210,
+                          width: MediaQuery.of(context).size.width*0.7,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [AppTheme.nearlyWhite, HexColor("#FFFFFF")],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: AppTheme.grey.withOpacity(0.6),
+                                  offset: Offset(1.1, 1.1),
+                                  blurRadius: 10.0),
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15.0,15.0,15.0,0.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Text("Your Address:", style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                                    IconButton(
+                                      icon: Icon(Icons.content_copy),
+                                      color: Colors.black38,
+                                      onPressed: (){
+                                        Clipboard.setData(
+                                            ClipboardData(text:address)).then((result){
+                                          Toast.show("Address Copied",context);
+                                        } );
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Text(address, style: TextStyle(color: Colors.black87),),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: MaterialButton(
+                                        shape: Border.all(width: 1.0, color: Colors.blueGrey),
+                                        color: Colors.black,
+                                        child: Text(
+                                            'Reveal PrivateKey',
+                                          style: TextStyle(
+                                            fontSize: 13.0,
+                                            //fontWeight: FontWeight.bold,
+                                            color: Colors.white,
                                           ),
-                                          onPressed: _showcontent,
-
-
                                         ),
+                                        onPressed: _showcontent,
+
+
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         )

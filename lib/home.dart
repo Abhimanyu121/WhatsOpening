@@ -130,6 +130,7 @@ class HomeState extends State<Home>{
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("privateKey","");
             prefs.setBool("loggedIn", false);
+            prefs.setString("email","");
             Navigator.popAndPushNamed(context, "/LoginWithSkip");
           },
           child: Row(
@@ -221,8 +222,8 @@ class HomeState extends State<Home>{
 
           Positioned(
 
-            top: MediaQuery.of(context).size.height*0.05,
-            left: MediaQuery.of(context,).size.width *0.3,
+            top: MediaQuery.of(context).size.height*0.04,
+            left: MediaQuery.of(context,).size.width *0.31,
             child: Container(
               padding: const EdgeInsets.fromLTRB(24.0, 6.0, 24.0, 6.0),
               child: FlatButton(
@@ -267,6 +268,7 @@ class HomeState extends State<Home>{
               backdropEnabled: true,
               renderPanelSheet: true,
               backdropOpacity: 0.5,
+              maxHeight: MediaQuery.of(context).size.height*0.7,
               panelSnapping: false,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
               parallaxEnabled: true,

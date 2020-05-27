@@ -14,6 +14,8 @@ class KeyInterface{
     print(add);
     String ppk = HEX.encode(wallet.privateKey.privateKey);
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("privateKey", ppk);
+    prefs.setString("address", address.hex);
     var arr = [ppk, address.hex];
     return arr;
   }
