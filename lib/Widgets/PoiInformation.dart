@@ -51,10 +51,10 @@ class PoiWidgetState extends State<PoiWidget>{
       child: Center(
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.black, Colors.black87],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight),
+            gradient: LinearGradient(colors: [
+              HexColor("#00264d"),
+              HexColor("#003366"),
+            ], begin: Alignment.topLeft, end: Alignment.bottomRight),
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           child: Padding(
@@ -80,13 +80,13 @@ class PoiWidgetState extends State<PoiWidget>{
     // TODO: implement build
     return _loading?SpinKitFadingCircle(size:50, color:Colors.blue):!bal?lessBal: Padding(
       padding: const EdgeInsets.only(
-          left: 24, right: 24, top: 16, bottom: 18),
+          left: 24, right: 24, top: 0, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.black, Colors.black87],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight),
+          gradient: LinearGradient(colors: [
+            HexColor("#00264d"),
+            HexColor("#003366"),
+          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
           borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         child: Padding(
@@ -122,7 +122,7 @@ class PoiWidgetState extends State<PoiWidget>{
                     style: style,
 
                     decoration: InputDecoration(
-                        fillColor: HexColor("#003366"),
+                        fillColor: Colors.black,
                         filled: true,
                         hintStyle: hintStyle,
                         contentPadding: EdgeInsets.fromLTRB(15,10,15,10),
@@ -151,7 +151,7 @@ class PoiWidgetState extends State<PoiWidget>{
 
                     decoration: InputDecoration(
                       hintStyle: hintStyle,
-                        fillColor: HexColor("#003366"),
+                        fillColor: Colors.black,
                         labelText: 'Reason for challenge',
                         labelStyle: new TextStyle(color: Colors.white70),
                         filled: true,

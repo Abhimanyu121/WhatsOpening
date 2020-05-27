@@ -87,8 +87,8 @@ class ChallengeScreenState extends State<ChallengeScreen>{
           padding: const EdgeInsets.all(8.0),
           child: Align(
             alignment: Alignment.topLeft,
-            child: ListView(
-              scrollDirection: Axis.vertical,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
 
                 Padding(

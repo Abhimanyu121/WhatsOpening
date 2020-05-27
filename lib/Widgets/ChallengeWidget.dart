@@ -1,6 +1,7 @@
 import 'package:flu/Wrappers/EthWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:flu/ThemeData.dart';
 class ChallengeWidget extends StatefulWidget{
   @override
   ChallengeWidgetState createState() => new ChallengeWidgetState();
@@ -13,10 +14,10 @@ class ChallengeWidgetState extends State<ChallengeWidget>{
     // TODO: implement build
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-            colors: [Colors.black, Colors.black87],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight),
+        gradient: LinearGradient(colors: [
+          HexColor("#00264d"),
+          HexColor("#003366"),
+        ], begin: Alignment.topLeft, end: Alignment.bottomRight),
         borderRadius: BorderRadius.all(Radius.circular(15)),
       ),
       child: Column(
