@@ -224,10 +224,10 @@ class PanelState extends State<PanelUi>{
             height: 10,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*0.55,
+            height: MediaQuery.of(context).size.height*0.6,
             child: ListView(
               cacheExtent: 100,
-              shrinkWrap: true,
+              shrinkWrap: false,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.fromLTRB(15.0,10.0,8,8),

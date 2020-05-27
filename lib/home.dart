@@ -268,7 +268,7 @@ class HomeState extends State<Home>{
               backdropEnabled: true,
               renderPanelSheet: true,
               backdropOpacity: 0.5,
-              maxHeight: MediaQuery.of(context).size.height*0.7,
+              maxHeight: MediaQuery.of(context).size.height*0.82,
               panelSnapping: false,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
               parallaxEnabled: true,
