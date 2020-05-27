@@ -32,7 +32,8 @@ This application utlizes FOAM contracts and api for POIs and has a second contra
 ##### Note :-If your last transaction is merged by making new transaction still gives you pending transaction, hit the transaction button again.
 ## Screenshots
 |<img src="Screenshots/1.png" width="400">|<img src="Screenshots/2.png" width="400">
-|<img src="Screenshots/3.png" width="400">|<img src="Screenshots/4.png" width="400">
-|<img src="Screenshots/5.png" width="400">|<img src="Screenshots/6.png" width="400">
-|<img src="Screenshots/8.png" width="400">|<img src="Screenshots/7.png" width="400">
-|<img src="Screenshots/9.png" width="400">|<img src="Screenshots/10.png" width="400">
+|<img src="Screenshots/9.png" width="400">|<img src="Screenshots/8.png" width="400">
+|<img src="Screenshots/12.png" width="400">|<img src="Screenshots/6.png" width="400">
+|<img src="Screenshots/4.png" width="400">|<img src="Screenshots/7.png" width="400">
+|<img src="Screenshots/3.png" width="400">|<img src="Screenshots/10.png" width="400">
+|<img src="Screenshots/11.png" width="400">|<img src="Screenshots/5.png" width="400">
