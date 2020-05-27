@@ -31,8 +31,8 @@ This application utlizes FOAM contracts and api for POIs and has a second contra
 ##### Note :- Please refrain from entering exceptional values, proper exception handling might not be present everywhere.
 ##### Note :-If your last transaction is merged by making new transaction still gives you pending transaction, hit the transaction button again.
 ## Screenshots
-|<img src="Screenshots/1.jpg" width="400">|<img src="Screenshots/2.jpg" width="400">
-|<img src="Screenshots/3.jpg" width="400">|<img src="Screenshots/4.jpg" width="400">
-|<img src="Screenshots/5.jpg" width="400">|<img src="Screenshots/6.jpg" width="400">
-|<img src="Screenshots/8.jpg" width="400">|<img src="Screenshots/7.jpg" width="400">
-|<img src="Screenshots/9.jpg" width="400">|<img src="Screenshots/10.jpg" width="400">
+|<img src="Screenshots/1.png" width="400">|<img src="Screenshots/2.png" width="400">
+|<img src="Screenshots/3.png" width="400">|<img src="Screenshots/4.png" width="400">
+|<img src="Screenshots/5.png" width="400">|<img src="Screenshots/6.png" width="400">
+|<img src="Screenshots/8.png" width="400">|<img src="Screenshots/7.png" width="400">
+|<img src="Screenshots/9.png" width="400">|<img src="Screenshots/10.png" width="400">
