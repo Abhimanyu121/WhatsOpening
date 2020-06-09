@@ -16,7 +16,6 @@ People usually prefer to check opening and closing times/ places on a mobile app
 - Adding New POI.
 - If user has zero eth, user still can submit opening and closing times(Thanks to Matic layer 2).
 - If user has zero FOAM tokens it shows user a link to guide to get started.
-- Users get a notification if they are near any Point of intrest(to keep it battery friendly it checks only if user moves significantly, for testing(111km approx, change of 1 Latitude or 1 Longitude), so create a POI on rinkeby before you initially start app or force stop application and start application again)
 - Users can view all POIs , Maps loads dynamically as user moves through map.
 - Users can Challenge POIs.
 - Users can Access their dashboard and manage FOAM token allowences.
