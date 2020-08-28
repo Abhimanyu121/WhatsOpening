@@ -1,4 +1,4 @@
-# Foam Maps
+# What's Opening
 Flutter based Mobile application for FOAM Maps.<br/></br>
 <img src="assets/blumark.png" width="120" height="150"><br/></br>
 This application utlizes FOAM contracts and api for POIs and has a second contract on Matic layer2 for reporting opening and closing times. Layer 2 has been chosen to reduce onboarding fiction, lesser amount of gas fee can be easily handled with gas stations. Users can check and report opening and closing times without haveing any foam tokens or eth.</br>
