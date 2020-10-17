@@ -13,7 +13,7 @@ People usually prefer to check opening and closing times/ places on a mobile app
 - Custodial Wallet Services.
 - Custodial service can be used to send meta tx or airdrop some eth to minimize user fiction.
 - Use of Layer 2 based Contracts
-- Adding New POI.
+- Adding New POIs.
 - If user has zero eth, user still can submit opening and closing times(Thanks to Matic layer 2).
 - If user has zero FOAM tokens it shows user a link to guide to get started.
 - Users can view all POIs , Maps loads dynamically as user moves through map.
