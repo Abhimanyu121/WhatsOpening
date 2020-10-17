@@ -29,7 +29,7 @@ People usually prefer to check opening and closing times/ places on a mobile app
 ## What is left?
 - Adding feature to Vote for POI.
 - Some bug fixes and exception handling.
-- Adding webSockets support dynamic refresh.
+- Adding webSockets support for  dynamic refresh.
 ##### Note :- You can use `6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0` it has FOAM tokens on rinkeby.
 ##### Note :- Please refrain from entering exceptional values, proper exception handling might not be present everywhere.
 ##### Note :-If your last transaction is merged by making new transaction still gives you pending transaction, hit the transaction button again.
