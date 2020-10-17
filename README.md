@@ -1,10 +1,10 @@
 # What's Opening
-Flutter based Mobile application for FOAM Maps.<br/></br>
+Flutter Based Mobile Application for FOAM Maps.<br/></br>
 <img src="assets/blumark.png" width="120" height="150"><br/></br>
 This application utlizes FOAM contracts and api for POIs and has a second contract on Matic layer2 for reporting opening and closing times. Layer 2 has been chosen to reduce onboarding fiction, lesser amount of gas fee can be easily handled with gas stations. Users can check and report opening and closing times without haveing any foam tokens or eth.</br>
 You can Find a small video of project [here](https://drive.google.com/file/d/10K2KfSmRfTHtT18xEAP59Uxz8vz8bCZ1/view?usp=sharing).</br>
 You can find APKs [here](https://github.com/Abhimanyu121/ColorCoded-FOAM-Maps/releases/tag/V1).
-## Reason for making it a mobile app
+## Reason for making it a Mobile App
 People usually prefer to check opening and closing times/ places on a mobile app instead of opening a website, and if a Dapp would have been made, it would have had made the ux even more terrible.
 ## Features
 - Check opening and closing time of a POI.
