@@ -2,10 +2,13 @@
 Flutter based Mobile application for FOAM Maps.<br/></br>
 <img src="assets/blumark.png" width="100" height="120"><t/><t/><t/><img src="https://icodrops.com/wp-content/uploads/2018/06/yT_5Hap9_400x400.png" width="120" height="150"><br/></br>
 This application utlizes FOAM contracts and api for POIs and has a second contract on Matic for reporting opening and closing times. Matic has been chosen to reduce onboarding fiction, lesser amount of gas fee can be easily handled with gas stations. Users can check and report opening and closing times without having any foam tokens or eth.</br>
+You can find APKs [here](https://github.com/Abhimanyu121/ColorCoded-FOAM-Maps/releases/tag/V1).
+
+<br/>
+## Traction so Far
 This application got featured in Community newsletters of FOAM mentioning how Matic worked charms for UX, you can ping me or FOAM team for a copy of newsletter.<br/>
 <img src="https://i.imgur.com/iwOMwje.png" width="600" height="720">  <br/> 
 You can find a small video demonstrating all the features of the application (some of the features are on Rinkeby and others on Matic). [here](https://vimeo.com/452450616).</br>
-You can find APKs [here](https://github.com/Abhimanyu121/ColorCoded-FOAM-Maps/releases/tag/V1).
 ## Reason for making it a mobile app
 People usually prefer to check opening and closing times/ places on a mobile app instead of opening a website, and if a Dapp would have been made, it would have had made the ux even more terrible.
 ## Features
