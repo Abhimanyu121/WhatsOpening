@@ -18,7 +18,7 @@ People usually prefer to check opening and closing times/ places on a mobile app
 - Upvote and downvote opening and closing time of a POI.
 - Custodial Wallet Services.
 - Custodial service can be used to send meta tx or airdrop some eth to minimize user fiction.
-- Use of Matic based Contracts
+- Use of Matic based Contracts.
 - Adding New POI.
 - If user has zero eth, user still can submit opening and closing times(Thanks to Matic layer 2).
 - If user has zero FOAM tokens it shows user a link to guide to get started.
@@ -39,7 +39,7 @@ People usually prefer to check opening and closing times/ places on a mobile app
 - Adding feature to Vote for POI.
 - Some bug fixes and exception handling.
 - Adding webSockets support dynamic refresh.
-## Future Steps
+## Future Steps are:
 Taking grants from FOAM team and Matic to build a complete decentralized alternative to Google or Apple Maps.
 ##### Note :- You can use `6843DC59D41289CC20E905180F6702621DCB9798B4413C031F8CB6EF0D9FC3E0` it has FOAM tokens on rinkeby.
 ##### Note :- Please refrain from entering exceptional values, proper exception handling might not be present everywhere.
