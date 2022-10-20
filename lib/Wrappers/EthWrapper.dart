@@ -8,7 +8,7 @@ import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 class EthWrapper {
-  static const rpcUrl = "https://rinkeby.infura.io/v3/0e4ce57afbd04131b6842f08265b4d4b";
+  static const rpcUrl = "https://sepolia.infura.io/v3/0e4ce57afbd04131b6842f08265b4d4b";
   static const token = "0x07685afc0c088f4b2236bf228c39c0336ed89e67";
   static const registry = "0x92ae8d38990aaA0E5180f7161A68dF54395952a1";
   static const voting = "0xe7a3fc437f8c0b4658ca8add30d87b7141f6e628";
