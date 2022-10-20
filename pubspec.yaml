@@ -22,7 +22,7 @@ dependencies:
 
   sliding_up_panel: ^1.0.2
   mapbox_gl: ^0.0.5
-  web3dart: ^2.0.0-dev.7
+  web3dart: ^2.0.0-dev.9
   http: ^0.12.0+4
   geolocator: ^5.2.1
   geohash: ^0.2.1
